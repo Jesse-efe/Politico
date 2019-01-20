@@ -21,7 +21,16 @@ a{
 }
 .main{
     width: 40rem;
-    margin: 3rem auto;
+    margin: 0 auto 3rem auto;
+}
+.main h1{
+    text-decoration: none;
+    color: #FDCC05;
+    font-size: 4rem;
+    font-weight: bold;
+    text-align: center;
+    margin-top: 2rem;
+    margin-bottom: 2rem;
 }
 .main > .box{
     padding-bottom: 3rem;
@@ -31,13 +40,7 @@ a{
 .main > .box h2{
     font-size: 3rem;
     font-weight: bold;
-}
-.main h1{
-    text-decoration: none;
-    color: #FDCC05;
-    font-size: 4rem;
-    font-weight: bold;
-    text-align: center;
+    margin: 1.5rem 0;
 }
 .main .form{
     width: 75%;
@@ -82,6 +85,11 @@ a{
     font-size: 1.3rem;
     font-weight: bold;
     margin: 0 auto;
+}
+.main #alt-sign-up{
+    font-size: 1.3rem;
+    margin: 0;
+    
 }
 footer{
     background-color: #252326;
