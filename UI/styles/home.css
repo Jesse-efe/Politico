@@ -6,10 +6,6 @@ html{
 *{
     box-sizing: border-box;
 }
-/* @font-face {
-    font-family: myFirstFont;
-    src: url(https://fonts.googleapis.com/css?family=Crushed);
-} */
 body{
     box-sizing: border-box;
     min-height: 100vh;
