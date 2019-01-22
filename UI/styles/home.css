@@ -6,6 +6,9 @@ html{
 *{
     box-sizing: border-box;
 }
+a{
+    text-decoration: none;
+}
 body{
     box-sizing: border-box;
     min-height: 100vh;
@@ -13,8 +16,8 @@ body{
     font-family: "Dosis";
     margin: 0;
     padding: 0;
-    display: grid;
-    grid-gap: 2rem;
+    /* display: grid; */
+    grid-gap: 0;
     grid-template-rows: 40rem 1fr 4rem;
     font-size: 1.6rem; 
 }
@@ -31,7 +34,7 @@ button{
         rgba(5, 119, 181, 0.787)
         /* rgba(2, 2, 3, 0.87),
         rgba(2, 2, 3, 0.87) */
-    ), url(jumbo-cover.JPG)
+    ), url(../jumbo-cover.JPG)
     no-repeat;
     background-size: cover;
     background-position: center;
@@ -42,8 +45,10 @@ button{
     list-style-type: none;
     margin: 0;
 }
-#jumbotrun #logo{
+#jumbotrun a{
     color: #FDCC05;
+}
+#jumbotrun #logo{
     font-size: 4rem;
     font-weight: bold;
     display: inline;
@@ -75,20 +80,17 @@ button{
     display: grid;
     grid-template-columns: repeat(4, 1fr);
     grid-gap: 2rem;
+    margin: 3rem 1rem;
 }
 #container > .summary > .summary-box{
     text-align: center;
 }
 #container > .description{
-    margin: 5rem 0;
+    margin: 5rem 0 0 0;
     width: 100%;
-    /* background-color: #00784A; */
     height: auto;
     display: grid;
     grid-template-columns: repeat(2, 1fr);
-}
-#container > .description > .description-img{
-    /* background: url(https://etimes.com.ng/wp-content/uploads/2018/03/GIRLS-1.jpg); */
 }
 #container > .description > .description-text{
     margin: auto 0 auto 2rem;
@@ -120,10 +122,12 @@ footer{
     }
     #container > .description{
         grid-template-columns: 1fr;
+        margin-bottom: 2rem;
     }
 } 
 
 @media (max-width: 455px) {
+
     #jumbotrun{
         padding-top: 1rem;
     }
@@ -132,7 +136,10 @@ footer{
     }
     #container > .summary{
         grid-template-columns: repeat(1, 1fr);
-        grid-gap: 2rem;
+        /* grid-gap: 2rem; */
+    }
+    #jumbotrun #jumbo-body{
+        margin: 6rem auto;
     }
     #jumbotrun #logo{
         display: block;
@@ -148,6 +155,9 @@ footer{
     #jumbotrun .first-nav-item{
         position: relative;
         left: 1.5rem
+    }
+    #jumbo-body h4{
+        display: none;
     }
 }
 
