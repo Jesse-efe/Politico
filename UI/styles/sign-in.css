@@ -54,7 +54,6 @@ nav .nav-item button:hover{
 }
 .main h1{
     text-decoration: none;
-    /* color: #FDCC05; */
     font-size: 4rem;
     font-weight: bold;
     text-align: center;
@@ -104,7 +103,6 @@ nav .nav-item button:hover{
     margin: 4rem 0 .6rem 0;
 }
 .main span .divider{
-    /* margin: 1px solid black; */
     height: .1rem;
     background-color: #DDE0E5;
     margin: auto 0;

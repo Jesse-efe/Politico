@@ -44,21 +44,12 @@ nav .nav-item button{
     height: 3rem;
     border: none;
     border-radius: 1rem;
-    color: #fff;
+    color: black;
     font-size: 1.5rem;
 }
 nav .nav-item button:hover{
     background-color: #252326;
 }
-/* @media (max-width: 790px) {
-    #container > .summary{
-        grid-template-columns: repeat(2, 1fr);
-        grid-gap: 2rem;
-    }
-    #container > .description{
-        grid-template-columns: 1fr;
-    }
-}  */
 
 @media (max-width: 455px) {
     #jumbotrun{
@@ -67,15 +58,10 @@ nav .nav-item button:hover{
     #jumbotrun ul{
         margin: 0 auto;
     }
-    /* #container > .summary{
-        grid-template-columns: repeat(1, 1fr);
-        grid-gap: 2rem;
-    } */
     #jumbotrun #logo{
         display: block;
         position: relative;
         left: 2.5rem;
-        /* text-align: center; */
     }
     #jumbotrun .nav-item{
         float: none;

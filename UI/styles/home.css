@@ -16,8 +16,6 @@ body{
     font-family: "Dosis";
     margin: 0;
     padding: 0;
-    /* display: grid; */
-    grid-gap: 0;
     grid-template-rows: 40rem 1fr 4rem;
     font-size: 1.6rem; 
 }
@@ -32,8 +30,6 @@ button{
     background: linear-gradient(
         rgba(5, 119, 181, 0.808),
         rgba(5, 119, 181, 0.787)
-        /* rgba(2, 2, 3, 0.87),
-        rgba(2, 2, 3, 0.87) */
     ), url(../jumbo-cover.JPG)
     no-repeat;
     background-size: cover;
@@ -136,7 +132,6 @@ footer{
     }
     #container > .summary{
         grid-template-columns: repeat(1, 1fr);
-        /* grid-gap: 2rem; */
     }
     #jumbotrun #jumbo-body{
         margin: 6rem auto;
@@ -145,7 +140,6 @@ footer{
         display: block;
         position: relative;
         left: 2.5rem;
-        /* text-align: center; */
     }
     #jumbotrun .nav-item{
         float: none;
