@@ -42,7 +42,7 @@ nav .nav-item button{
     height: 3rem;
     border: none;
     border-radius: 1rem;
-    color: #fff;
+    color: black;
     font-size: 1.5rem;
 }
 nav .nav-item button:hover{
