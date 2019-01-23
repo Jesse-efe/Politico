@@ -94,48 +94,6 @@ nav .nav-item button:hover{
     box-shadow: 0 .3rem .5rem #888888;
     margin: 0 3rem 4rem 0;
 }
-#admin-one-party{
-    height: 360px;
-    width: 220px;
-    box-shadow: 0 3px 5px #888888;
-    margin: 0 30px 40px 0;
-}
-#admin-one-party > #one-party-pic{
-    height: 150px;
-    width: 220px;
-}
-#admin-one-party > #one-party-pic img{
-    width: 220px;
-    height: 150px;
-}
-#admin-one-party > #admin-one-party-text{
-    margin: 10px;
-}
-#admin-one-party-text #party-describe{
-    height: 110px;
-}
-#admin-one-party-text #price-button{
-    height: 60px;
-    position: relative;
-    top: 15px;
-}
-#admin-one-party-text  #price-button>h3{
-    display: inline-block;
-    font-size: 2rem;
-}
-#admin-one-party-text  button{
-    height: 40px;
-    width: 90px;
-    background-color: green;
-    margin-right: 10px;
-    color: white;
-    font-size: 16px;
-    border-radius: 7px;
-    border: none;
-}
-#admin-one-party-text > button:hover{
-    background-color: orangered;
-}
 #one-party > #one-party-pic{
     height: 150px;
     width: 220px;
@@ -158,14 +116,15 @@ nav .nav-item button:hover{
 #one-party-text > button{
     height: 40px;
     width: 100px;
-    background-color: #00784A;
+    background-color: #3791C2;
     color: white;
     font-size: 1.3rem;
     border-radius: 7px;
     border: none;
 }
 #one-party-text > button:hover{
-    background-color: orangered;
+    background-color: #FDCC05;
+    color: black;
 }
 
 /* *******new-menu.html styles end****** */
