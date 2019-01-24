@@ -50,16 +50,18 @@ nav .nav-item button{
     height: 3rem;
     border: none;
     border-radius: 1rem;
-    color: #fff;
+    color: black;
     font-size: 1.5rem;
 }
 nav .nav-item button:hover{
     background-color: #252326;
+    color: white;
 }
 #side-bar{
     grid-area: s;
     background-color: darkgray;
-    /* #C8C8C8; */
+    padding-top: 1rem;
+    width: 20rem;
 }
 #side-bar .menu-item{
     height: 4rem;
@@ -67,14 +69,75 @@ nav .nav-item button:hover{
     border-top: none;
     border-right: none;
     font-weight: bold;
-    padding-top: .8rem;
-    padding-bottom: 1rem;
+    padding: .8rem 0 1rem 1rem;
 }
 #side-bar .menu-item:hover{
     background-color: gray;
 }
-#main{
+#user-details{
     grid-area: m;
+    margin: 0 auto;
+    max-width: 130rem;
+}
+#user-details > #about > h1{
+    border-top: 1px grey solid;
+    border-bottom: 1px grey solid;
+    width: 30rem;
+}
+#user-details > #about > p{
+    margin: 0;
+    font-size: 1.2rem;
+}
+#user-details > #about > h3{
+    margin: 0 0 .5rem 0;
+    font-size: 1.5rem;
+}
+#user-details > #stats > .box{
+    text-align: center;
+    background-color: #3791C2;
+    width: 10rem;
+    padding: 1rem;
+}
+#user-details > #stats > .box h1{
+    margin: 0;
+}
+#user-details > #stats > .box h4{
+    margin: 0;
+}
+#user-details > h1{
+    margin: .8rem 0 0 4rem;
+    font-size: 5rem;
+}
+#user-details > i{
+    float: right;
+    margin: 2rem 2rem;
+    display: none;
+}
+#user-details > #history{
+    margin-top: 5rem;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+#user-details > #history .one-history {
+    background-color: #E9E9E9;
+    padding: 5rem 0;
+    width: 30rem;
+    text-align: center;
+    padding: auto auto;
+    margin: 0 3rem 4rem 0;
+}
+#user-details > #history .one-history div{
+    margin: 0;
+}
+#user-details > #history .one-history div h1{
+    margin: 0;
+}
+#user-details > #history .one-history h2{
+    margin: 0 0 .5rem 0;
+}
+#user-details > #history .one-history p{
+    margin: 0;
 }
 footer{
     grid-area: f;
@@ -82,9 +145,26 @@ footer{
     color: #fff;
     text-align: center;
     padding: 1rem 0;
-    position: absolute;
-    right: 0;
-    bottom: 0;
-    left: 0;
 }
 
+@media (max-width: 856px) {
+    body{
+        grid-template-areas: 
+        'n n n n n n n n n n n n'
+        'm m m m m m m m m m m m'
+        'f f f f f f f f f f f f';
+        grid-template-rows: 5rem 1fr 4rem; 
+    }
+    #side-bar{
+        background-color: darkgray;
+        padding-top: 1rem;
+        position: absolute;
+        width: 20rem;
+        height: 100vh;
+        top: 5rem;
+        display: none;
+    }
+    #user-details > i{
+        display: block;
+    }
+}
