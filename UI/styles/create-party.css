@@ -87,7 +87,7 @@ nav .nav-item button:hover{
 }
 #form-area > i{
     float: right;
-    margin: 2rem 2rem;
+    margin: 1.2rem 2rem;
     display: none;
 }
 .main{
@@ -169,3 +169,25 @@ footer{
     padding: 1rem 0;
     z-index: 100;
 }
+
+@media (max-width: 768px) {
+    body{
+        grid-template-areas: 
+        'n n n n n n n n n n n n'
+        'm m m m m m m m m m m m'
+        'f f f f f f f f f f f f';
+        grid-template-rows: 5rem 1fr 4rem; 
+    }
+    #side-bar{
+        background-color: darkgray;
+        padding-top: 1rem;
+        position: absolute;
+        width: 20rem;
+        height: 100vh;
+        top: 5rem;
+        display: none;
+    }
+    #form-area > i{
+        display: block;
+    }
+} 
