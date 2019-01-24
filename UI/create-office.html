@@ -35,19 +35,25 @@
     </section>
     <section id="form-area">
         <i class="fas fa-bars fa-2x"></i>
-        <h1>Edit Political Party</h1>
+        <h1>Create A Government Office</h1>
         <section class="main">
             <div class="box">
                 <div class="form">
                     <h2></h2>
                     <form id="sign-in-form">
-                        <label for="party-name">New Party Name</label>
-                        <input type="text" id="party-name" class="input"><br>
-                        <label for="party-address"> New Head Quater Address</label>
-                        <input type="text" id="party-address" class="input"><br>
-                        <label for="party-logo">New Party Logo</label>
-                        <input type="text" id="party-logo" class="input"><br>
-                        <input type="submit" class="submit-button input" value="Edit Party">
+                        <label for="office-name">Office Name</label>
+                        <input type="text" id="office-name" class="input"><br>
+                        <div class="party-type-select">
+                            <label for="office-type">Office Type</label>
+                            <select id="office-type">
+                                <option value="0"></option>
+                                <option value="1">Federal,</option>
+                                <option value="2">Legislative,</option>
+                                <option value="3">State,</option>
+                                <option value="3">Local government,</option>
+                            </select>
+                        </div>
+                        <input type="submit" class="submit-button input" value="Create Office">
                     </form>
                 </div>
             </div>
