@@ -112,7 +112,7 @@ nav .nav-item button:hover{
 }
 #offices > .one-office .candidates form .vote-button{
     background-color: #3791C2;
-    color: black;
+    color: white;
     height: 3rem;
     width: 100%;
     margin-top: 2rem;
@@ -134,7 +134,7 @@ nav .nav-item button:hover{
     height: 3rem;
     margin-right: 3rem;
     background-color: #3791C2;
-    color: black;
+    color: white;
     border-radius: 1rem;
     border: none;
     cursor: pointer;
