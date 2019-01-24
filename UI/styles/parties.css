@@ -49,6 +49,7 @@ nav .nav-item button{
 }
 nav .nav-item button:hover{
     background-color: #252326;
+    color: white;
 }
 
 @media (max-width: 455px) {
@@ -76,10 +77,9 @@ nav .nav-item button:hover{
 
 /************new-menu style**************/
 
-#new-container{
-    margin: 0;
-    position: relative;
-    top: -27px;
+h1{
+    font-size: 5rem;
+    margin-left: 10.5rem;
 }
 #new-menu-items{
     margin: 40px auto;
@@ -114,17 +114,21 @@ nav .nav-item button:hover{
     top: -10px;
 }
 #one-party-text > button{
-    height: 40px;
-    width: 100px;
+    height: 4rem;
+    width: 9rem;
     background-color: #3791C2;
-    color: white;
+    color: black;
     font-size: 1.3rem;
     border-radius: 7px;
     border: none;
+    float: left;
+}
+#one-party-text > .edit-party{
+    margin-right: 2rem;
 }
 #one-party-text > button:hover{
-    background-color: #FDCC05;
-    color: black;
+    background-color: black;
+    color: white;
 }
 
 /* *******new-menu.html styles end****** */
