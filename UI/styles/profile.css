@@ -26,6 +26,9 @@ body{
     grid-template-rows: 5rem 1fr 4rem;
     font-size: 1.6rem; 
 }
+button{
+    cursor: pointer;
+}
 nav{
     grid-area: n;
     background-color: rgba(5, 119, 181, 0.787);

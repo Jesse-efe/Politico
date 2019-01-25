@@ -52,6 +52,7 @@ nav .nav-item button{
     border-radius: 1rem;
     color: black;
     font-size: 1.5rem;
+    cursor: pointer;
 }
 nav .nav-item button:hover{
     background-color: #252326;
@@ -121,6 +122,9 @@ nav .nav-item button:hover{
 #offices > .one-office .candidates form p{
     display: inline-block;
     margin: 0 3rem 0 auto; 
+}
+.winner{
+    background-color: #A8D2DF;
 }
 #offices > .one-office .candidates form span{
     float: right; 
