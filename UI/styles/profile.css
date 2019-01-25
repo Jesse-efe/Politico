@@ -147,6 +147,11 @@ footer{
     padding: 1rem 0;
 }
 
+@media (min-width: 769px) {
+    #user-details > .fas{
+        display: none !important;
+    }
+}
 @media (max-width: 856px) {
     body{
         grid-template-areas: 
@@ -164,7 +169,7 @@ footer{
         top: 5rem;
         display: none;
     }
-    #user-details > i{
+    #user-details > .fa-bars{
         display: block;
     }
 }
