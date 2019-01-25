@@ -12,7 +12,8 @@ a{
 }
 body{
     box-sizing: border-box;
-    min-height: 100vh;
+    height: 100vh;
+    width: 100vw;
     background-color: #F5F5F5;
     font-family: "Dosis";
     margin: 0;
@@ -141,21 +142,12 @@ nav .nav-item button:hover{
     background-color: #252326;
     color: #fff;
 }
-.main span{
-    display: grid;
-    grid-template-columns: 1fr 1fr 1fr;
-    margin: 4rem 0 .6rem 0;
-}
-.main span .divider{
-    height: .1rem;
-    background-color: #DDE0E5;
-    margin: auto 0;
-}
-.main span .divider-text{
-    color: #959595;
-    font-size: 1.3rem;
-    font-weight: bold;
-    margin: 0 auto;
+.party-type-select > select{
+    width: 30rem;
+    height: 3.5rem;
+    margin: .5rem 0 1.5rem 0;
+    border-radius: .5rem;
+    border: 1px solid grey;
 }
 .main #alt-sign-up{
     font-size: 1.3rem;
@@ -174,16 +166,17 @@ footer{
     body{
         grid-template-areas: 
         'n n n n n n n n n n n n'
-        'm m m m m m m m m m m m'
+        's m m m m m m m m m m m'
         'f f f f f f f f f f f f';
         grid-template-rows: 5rem 1fr 4rem; 
     }
     #side-bar{
+        grid-area: s;
         background-color: darkgray;
         padding-top: 1rem;
         position: absolute;
         width: 20rem;
-        height: 100vh;
+        height: 90%;
         top: 5rem;
         display: none;
     }
