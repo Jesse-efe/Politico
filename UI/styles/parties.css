@@ -21,6 +21,12 @@ body{
     padding-bottom: 80px;
     min-height: 100%; 
 }
+button{
+    cursor: pointer;
+}
+button a{
+    color: inherit;
+}
 nav{
     background-color: rgba(5, 119, 181, 0.787);
 }

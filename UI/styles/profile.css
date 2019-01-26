@@ -26,6 +26,9 @@ body{
     grid-template-rows: 5rem 1fr 4rem;
     font-size: 1.6rem; 
 }
+button{
+    cursor: pointer;
+}
 nav{
     grid-area: n;
     background-color: rgba(5, 119, 181, 0.787);
@@ -146,7 +149,64 @@ footer{
     text-align: center;
     padding: 1rem 0;
 }
+.active{
+    background-color: gray;
+}
+#new-menu-items{
+    margin: 40px auto;
+    width: 90%;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+#one-party{
+    height: 25rem;
+    width: 22rem;
+    box-shadow: 0 .3rem .5rem #888888;
+    margin: 0 3rem 4rem 0;
+}
+#one-party > #one-party-pic{
+    height: 150px;
+    width: 220px;
+}
+#one-party > #one-party-pic img{
+    width: 220px;
+    height: 150px;
+}
+#one-party > #one-party-text{
+    margin: 10px;
+}
+#one-party > #one-party-text h3{
+    font-size: 1.5rem;
+}
+#one-party-text > span{
+    font-size: 12px;
+    position: relative;
+    top: -10px;
+}
+#one-party-text > button{
+    height: 4rem;
+    width: 9rem;
+    background-color: #3791C2;
+    color: white;
+    font-size: 1.3rem;
+    border-radius: 7px;
+    border: none;
+    float: left;
+}
+#one-party-text > .edit-party{
+    margin-right: 2rem;
+}
+#one-party-text > button:hover{
+    background-color: black;
+    color: white;
+}
 
+@media (min-width: 769px) {
+    #user-details > .fas{
+        display: none !important;
+    }
+}
 @media (max-width: 856px) {
     body{
         grid-template-areas: 
@@ -164,7 +224,13 @@ footer{
         top: 5rem;
         display: none;
     }
-    #user-details > i{
+    #user-details > .fa-bars{
         display: block;
     }
 }
+@media (max-width: 270px) {
+    nav .nav-item button{
+        display: none;
+    }
+}
+

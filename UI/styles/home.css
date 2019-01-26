@@ -26,6 +26,9 @@ img{
 button{
     cursor: pointer;
 }
+button a{
+    color: inherit;
+}
 #jumbotrun{
     background: linear-gradient(
         rgba(5, 119, 181, 0.808),

@@ -53,6 +53,7 @@ nav .nav-item button{
     border-radius: 1rem;
     color: black;
     font-size: 1.5rem;
+    cursor: pointer;
 }
 nav .nav-item button:hover{
     background-color: #252326;
@@ -74,6 +75,9 @@ nav .nav-item button:hover{
 #side-bar .menu-item:hover{
     background-color: gray;
 }
+.active{
+    background-color: gray;
+}
 #form-area{
     grid-area: m;
     max-width: 130rem;
@@ -89,6 +93,13 @@ nav .nav-item button:hover{
 #form-area > i{
     float: right;
     margin: 1.2rem 2rem;
+    display: none;
+    display: block;
+    display: none;
+}
+#form-area > .fas{
+    display: none;
+    display: block;
     display: none;
 }
 .main{
@@ -162,6 +173,11 @@ footer{
     z-index: 100;
 }
 
+@media (min-width: 769px) {
+    #form-area > .fas{
+        display: none !important;
+    }
+}
 @media (max-width: 768px) {
     body{
         grid-template-areas: 
@@ -180,7 +196,7 @@ footer{
         top: 5rem;
         display: none;
     }
-    #form-area > i{
+    #form-area > .fa-bars{
         display: block;
     }
 } 
