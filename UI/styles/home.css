@@ -62,11 +62,15 @@ button a{
     height: 3rem;
     border: none;
     border-radius: 1rem;
-    color: #fff;
+    color: blacks;
     font-size: 1.5rem;
 }
+#jumbotrun .nav-item button a{
+    color: inherit;
+}
 #jumbotrun .nav-item button:hover{
-    background-color: #252326;
+    background-color: black;
+    color:white;
 }
 #jumbotrun #jumbo-body{
     font-size: 1.5rem;

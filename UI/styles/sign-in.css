@@ -21,6 +21,7 @@ button{
 }
 a{
     text-decoration: none;
+    color: inherit;
 }
 nav{
     background-color: rgba(5, 119, 181, 0.787);
@@ -49,7 +50,8 @@ nav .nav-item button{
     font-size: 1.5rem;
 }
 nav .nav-item button:hover{
-    background-color: #252326;
+    background-color: black;
+    color: white;
 }
 .main{
     width: 40rem;
