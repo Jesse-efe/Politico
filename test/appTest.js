@@ -117,5 +117,18 @@ describe('App.js', () => {
             });
         });
 
+        
+        it('should get all parties', (done) => {
+            chai.request(app)
+            .get('/api/v1/parties')
+            .end((err, res) => {
+                expect(res).to.be.json;
+                expect(res).to.have.status(200);
+                expect(res.body.data[0].name).to.equal('Green Party of Nigeria');
+                expect(res.body.data[2].logoUrl).to.equal('https://i1.wp.com/www.grand.org/inec/pix/GPN.png?w=573');
+                done();
+            });
+        });
+
     })
 })
