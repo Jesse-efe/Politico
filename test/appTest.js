@@ -164,5 +164,69 @@ describe('App.js', () => {
             });
         });
 
+        it('should edit a valid party', (done) => {
+            chai.request(app)
+            .patch('/api/v1/parties/n/name')
+            .end((err, res) => {
+                expect(res).to.be.json;
+                expect(res).to.have.status(400);
+                expect(res.body.error).to.equal('Invalid party Id');
+                done();
+            });
+        });
+
+        it('should send along new name to edit a party', (done) => {
+            chai.request(app)
+            .patch('/api/v1/parties/99/name')
+            .end((err, res) => {
+                expect(res).to.be.json;
+                expect(res).to.have.status(400);
+                expect(res.body.error).to.equal('party name was not specified');
+                done();
+            });
+        });
+
+        it('should send along valid name to edit a party', (done) => {
+            chai.request(app)
+            .patch('/api/v1/parties/99/name')
+            .send({
+                name: '   ',
+            })
+            .end((err, res) => {
+                expect(res).to.be.json;
+                expect(res).to.have.status(400);
+                expect(res.body.error).to.equal('party name was not specified');
+                done();
+            });
+        });
+
+        it('should edit an existing party', (done) => {
+            chai.request(app)
+            .patch('/api/v1/parties/99/name')
+            .send({
+                name: 'Good Party',
+            })
+            .end((err, res) => {
+                expect(res).to.be.json;
+                expect(res).to.have.status(404);
+                expect(res.body.error).to.equal('That party could not be found');
+                done();
+            });
+        });
+
+        it('should edit a party', (done) => {
+            chai.request(app)
+            .patch('/api/v1/parties/100/name')
+            .send({
+                name: 'Very Good Party',
+            })
+            .end((err, res) => {
+                expect(res).to.be.json;
+                expect(res).to.have.status(200);
+                expect(res.body.data[0].name).to.equal('Very Good Party');
+                done();
+            });
+        });
+
     })
 })

@@ -76,6 +76,38 @@ class Party {
       });
     } 
   }
+
+  static async editParty(req, res) {
+    const { id } = req.params;
+    const {
+      name,
+    } = req.body;
+    
+    let parties = data[0];
+    let foundParty = false;
+    await parties.forEach((party) => {
+      if(party.id === id){
+        foundParty = true;
+        party.name = name;
+        let oneParty = {
+          id: party.id,
+          name: party.name,
+        }
+        let response = {
+          status: 200 ,
+          data: [oneParty],
+        }
+        return res.status(200).json(response);
+      }
+    });
+    if(!foundParty){
+      return res.status(404).json({
+        status: 404,
+        error: 'That party could not be found'
+      });
+    }
+  }
+
 }
 
 export default Party;

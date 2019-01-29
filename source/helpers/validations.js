@@ -49,3 +49,35 @@ export const checkPartyData = (req, res, next) => {
   req.body.hqAddress = hqAddress;
   next();
 };
+
+export const checkEditPartyData = (req, res, next) => {
+  let { id } = req.params;
+  let {
+    name,
+  } = req.body;
+
+  id = parseInt(id);
+  if (isNaN(id)) {
+    return res.status(400).json({
+      status: 400,
+      error: 'Invalid party Id'
+    });
+  }
+  if (name === undefined) {
+    return res.status(400).json({
+      status: 400,
+      error: 'party name was not specified',
+    });
+  }
+  name = name.trim();
+  if (name === '') {
+    return res.status(400).json({
+      status: 400,
+      error: 'party name was not specified',
+    });
+  }
+
+  req.body.name = name;
+  req.params.id = id;
+  next();
+}
