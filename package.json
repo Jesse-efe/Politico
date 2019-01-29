@@ -4,8 +4,9 @@
   "description": "An online voting application",
   "main": "source/app.js",
   "scripts": {
-    "start": "npm run build && node ./dist/app.js",
-    "test": "nyc mocha --exit --require babel-core/register",
+    "prestart": "npm run build",
+    "start": "node ./dist/app.js",
+    "test": "nyc mocha --exit --require babel-core/register --timeout 10000",
     "build": "babel source -d dist"
   },
   "repository": {
