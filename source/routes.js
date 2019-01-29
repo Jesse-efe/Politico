@@ -8,6 +8,6 @@ Router.post('/parties', checkPartyData, party.createParty);
 Router.get('/parties', party.getAllParty);
 Router.get('/parties/:id', party.getOneParty);
 Router.patch('/parties/:id/name', checkEditPartyData, party.editParty);
-
+Router.delete('/parties/:id', party.deleteParty);
 
 export default Router;
