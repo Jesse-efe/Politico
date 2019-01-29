@@ -81,3 +81,42 @@ export const checkEditPartyData = (req, res, next) => {
   req.params.id = id;
   next();
 }
+
+export const checkOfficeData = (req, res, next) => {
+  let {
+      name, type,
+  } = req.body;
+
+  if (name === undefined) {
+    return res.status(400).json({
+      status: 400,
+      error: 'office name was not specified',
+    });
+  }
+  if (type === undefined) {
+    return res.status(400).json({
+      status: 400,
+      error: 'office type was not specified',
+    });
+  }
+
+  name = name.trim();
+  type = type.trim();
+
+  if (name === '') {
+    return res.status(400).json({
+      status: 400,
+      error: 'office name was not specified',
+    });
+  }
+  if (type === '') {
+    return res.status(400).json({
+      status: 400,
+      error: 'office type was not specified',
+    });
+  }
+
+  req.body.name = name;
+  req.body.type = type;
+  next();
+};

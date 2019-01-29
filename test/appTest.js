@@ -261,4 +261,82 @@ describe('App.js', () => {
             });
         });
     })
+
+    describe('/api/v1/offices', () => {
+        it('office name should be defined', (done) => {
+            chai.request(app)
+            .post('/api/v1/offices')
+            .send({
+                type: 'federal',
+            })
+            .end((err, res) => {
+                expect(res).to.be.json;
+                expect(res).to.have.status(400);
+                expect(res.body.error).to.equal('office name was not specified');
+                done();
+            });
+        });
+
+        it('office name should be valid', (done) => {
+            chai.request(app)
+            .post('/api/v1/offices')
+            .send({
+                name: '',
+                type: 'federal',
+            })
+            .end((err, res) => {
+                expect(res).to.be.json;
+                expect(res).to.have.status(400);
+                expect(res.body.error).to.equal('office name was not specified');
+                done();
+            });
+        });
+
+        it('office type should be defined', (done) => {
+            chai.request(app)
+            .post('/api/v1/offices')
+            .send({
+                name: 'federal',
+            })
+            .end((err, res) => {
+                expect(res).to.be.json;
+                expect(res).to.have.status(400);
+                expect(res.body.error).to.equal('office type was not specified');
+                done();
+            });
+        });
+
+        it('office type should be valid', (done) => {
+            chai.request(app)
+            .post('/api/v1/offices')
+            .send({
+                name: 'federal',
+                type: '  ',
+            })
+            .end((err, res) => {
+                expect(res).to.be.json;
+                expect(res).to.have.status(400);
+                expect(res.body.error).to.equal('office type was not specified');
+                done();
+            });
+        });
+
+        it('office should be created', (done) => {
+            chai.request(app)
+            .post('/api/v1/offices')
+            .send({
+                name: 'House Of Representatives Lagos Central',
+                type: ' federal ',
+            })
+            .end((err, res) => {
+                expect(res).to.be.json;
+                expect(res).to.have.status(201);
+                expect(res.body.data[0].id).to.equal(104);
+                expect(res.body.data[0].name).to.equal('House Of Representatives Lagos Central');
+                expect(res.body.data[0].type).to.equal('federal');
+                done();
+            });
+        });
+    })
+
 })
