@@ -33,6 +33,35 @@ class Office {
     }
     return res.status(200).json(response);
   }
+
+  static async getAnOffice(req, res) {
+    let { id } = req.params;
+    id = parseInt(id);
+    if (isNaN(id)) {
+      return res.status(400).json({
+        status: 400,
+        error: 'Invalid office Id'
+      });
+    }
+    let offices = data[1];
+    let foundOffice = false;
+    await offices.forEach((office) => {
+      if(office.id === id){
+        foundOffice = true;
+        let response = {
+          status: 200 ,
+          data: [office],
+        }
+        return res.status(200).json(response);
+      }
+    });
+    if(!foundOffice){
+      return res.status(404).json({
+        status: 404,
+        error: 'That office could not be found'
+      });
+    } 
+  }
 }
 
 export default Office;

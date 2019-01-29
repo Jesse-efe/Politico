@@ -350,6 +350,40 @@ describe('App.js', () => {
                 done();
             });
         });
-    })
 
+        it('should get an ofice with valid id', (done) => {
+            chai.request(app)
+            .get('/api/v1/offices/five')
+            .end((err, res) => {
+                expect(res).to.be.json;
+                expect(res).to.have.status(400);
+                expect(res.body.error).to.equal('Invalid office Id');
+                done();
+            });
+        });
+
+        it('should get an existing office', (done) => {
+            chai.request(app)
+            .get('/api/v1/offices/120')
+            .end((err, res) => {
+                expect(res).to.be.json;
+                expect(res).to.have.status(404);
+                expect(res.body.error).to.equal('That office could not be found');
+                done();
+            });
+        });
+        
+        it('should get an office', (done) => {
+            chai.request(app)
+            .get('/api/v1/offices/101')
+            .end((err, res) => {
+                expect(res).to.be.json;
+                expect(res).to.have.status(200);
+                expect(res.body.data[0].name).to.equal('Senate President Federal Republic Of Nigeria');
+                expect(res.body.data[0].type).to.equal('federal');
+                expect(res.body.data[0].id).to.equal(101);
+                done();
+            });
+        });
+    })
 })
