@@ -24,6 +24,15 @@ class Office {
 
     return res.status(201).json(response);
   }
+
+  static async getAllOffice(req, res) {
+    let offices = data[1];
+    let response = {
+        status: 200 ,
+        data: offices,
+    }
+    return res.status(200).json(response);
+  }
 }
 
 export default Office;

@@ -337,6 +337,19 @@ describe('App.js', () => {
                 done();
             });
         });
+
+        it('should get all offices', (done) => {
+            chai.request(app)
+            .get('/api/v1/offices')
+            .end((err, res) => {
+                expect(res).to.be.json;
+                expect(res).to.have.status(200);
+                expect(res.body.data[0].name).to.equal('President Federal Republic Of Nigeria');
+                expect(res.body.data[2].type).to.equal('state');
+                expect(res.body.data[3].id).to.equal(103);
+                done();
+            });
+        });
     })
 
 })

@@ -11,5 +11,6 @@ Router.get('/parties/:id', party.getOneParty);
 Router.patch('/parties/:id/name', checkEditPartyData, party.editParty);
 Router.delete('/parties/:id', party.deleteParty);
 Router.post('/offices', checkOfficeData, office.createOffice);
+Router.get('/offices', office.getAllOffice);
 
 export default Router;
