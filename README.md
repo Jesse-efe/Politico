@@ -1,4 +1,5 @@
 # Politico
+
 [![Build Status](https://travis-ci.com/Jesse-efe/Politico.svg?branch=develop)](https://travis-ci.com/Jesse-efe/Politico)
 
 [![Coverage Status](https://coveralls.io/repos/github/Jesse-efe/Politico/badge.svg?branch=ft-cant-create-duplicates-of-same-entity-163574839)](https://coveralls.io/github/Jesse-efe/Politico?branch=ft-cant-create-duplicates-of-same-entity-163574839)
