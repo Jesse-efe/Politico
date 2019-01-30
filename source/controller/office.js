@@ -1,4 +1,4 @@
-import data from '../db/storage';
+import data from '../models/storage';
 
 class Office {
   static async createOffice(req, res) {

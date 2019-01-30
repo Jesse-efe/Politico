@@ -1,4 +1,4 @@
-import data from '../db/storage';
+import data from '../models/storage';
 
 class Party {
   static async getAllParty(req, res) {
