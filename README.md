@@ -1,4 +1,6 @@
 # Politico
+[![Maintainability](https://api.codeclimate.com/v1/badges/384a8468321896f6ca64/maintainability)](https://codeclimate.com/github/Jesse-efe/Politico/maintainability)
+
 This is an electronic voting system that enables citizens give their mandate to politicians running for different government offices
 while building trust in the process through transparency.
 
