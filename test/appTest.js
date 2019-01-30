@@ -17,7 +17,7 @@ describe('App.js', () => {
             .end((err, res) => {
                 expect(res).to.be.json;
                 expect(res).to.have.status(400);
-                expect(res.body.error).to.equal('party name was not specified');
+                expect(res.body.error).to.equal('party name was not specified and party logo was not specified and party headquater address was not specified');
                 done();
             });
         });
@@ -27,8 +27,8 @@ describe('App.js', () => {
             .post('/api/v1/parties')
             .send({
                 name: '   ',
-                logoUrl: '',
-                hqAddress: '',
+                logoUrl: 'https://i1.wp.com/www.inecnigeria.org/inec/pix/GPN.png?w=573',
+                hqAddress: 'epic',
             })
             .end((err, res) => {
                 expect(res).to.be.json;
@@ -48,7 +48,7 @@ describe('App.js', () => {
             .end((err, res) => {
                 expect(res).to.be.json;
                 expect(res).to.have.status(400);
-                expect(res.body.error).to.equal('party logo was not specified');
+                expect(res.body.error).to.equal('party logo was not specified and party headquater address was not specified');
                 done();
             });
         });
@@ -59,7 +59,7 @@ describe('App.js', () => {
             .send({
                 name: 'ona',
                 logoUrl: '',
-                hqAddress: '',
+                hqAddress: 'epic',
             })
             .end((err, res) => {
                 expect(res).to.be.json;
@@ -100,7 +100,7 @@ describe('App.js', () => {
             });
         });
         
-        it('should post a party', (done) => {
+        it('should create a party', (done) => {
             chai.request(app)
             .post('/api/v1/parties')
             .send({
@@ -113,6 +113,22 @@ describe('App.js', () => {
                 expect(res).to.have.status(201);
                 expect(res.body.data[0].name).to.equal('Davids oyetunde party');
                 expect(res.body.data[0].id).to.equal(103);
+                done();
+            });
+        });
+
+        it('should not create duplicate party', (done) => {
+            chai.request(app)
+            .post('/api/v1/parties')
+            .send({
+                name: 'Davids oyetunde party',
+                logoUrl: 'logo.jpg',
+                hqAddress: '56 baruwa str.',
+            })
+            .end((err, res) => {
+                expect(res).to.be.json;
+                expect(res).to.have.status(400);
+                expect(res.body.error).to.equal('A party with this name already exist');
                 done();
             });
         });
@@ -170,7 +186,7 @@ describe('App.js', () => {
             .end((err, res) => {
                 expect(res).to.be.json;
                 expect(res).to.have.status(400);
-                expect(res.body.error).to.equal('Invalid party Id');
+                expect(res.body.error).to.equal('Invalid party Id and party name was not specified');
                 done();
             });
         });
@@ -334,6 +350,21 @@ describe('App.js', () => {
                 expect(res.body.data[0].id).to.equal(104);
                 expect(res.body.data[0].name).to.equal('House Of Representatives Lagos Central');
                 expect(res.body.data[0].type).to.equal('federal');
+                done();
+            });
+        });
+
+        it('should not create duplicate office', (done) => {
+            chai.request(app)
+            .post('/api/v1/offices')
+            .send({
+                name: 'House Of Representatives Lagos Central',
+                type: ' federal ',
+            })
+            .end((err, res) => {
+                expect(res).to.be.json;
+                expect(res).to.have.status(400);
+                expect(res.body.error).to.equal('An office with this name already exist');
                 done();
             });
         });

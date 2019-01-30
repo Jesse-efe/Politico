@@ -19,28 +19,41 @@ class Party {
     return res.status(200).json(response);
   }
 
-  static createParty(req, res) {
+  static async createParty(req, res) {
     const {
       name, logoUrl, hqAddress
     } = req.body;
 
-    let id = data[0].length + 100;
-    let newParty = {
-      id,
-      name,
-      hqAddress,
-      logoUrl,
+    let parties = data[0];
+    let id = parties.length + 100;
+    let foundParty = false;
+    await parties.forEach((party) => {
+      if(party.name === name){
+        foundParty = true;
+      }
+    });
+    if(!foundParty) {
+      let newParty = {
+        id,
+        name,
+        hqAddress,
+        logoUrl,
+      }
+      parties.push(newParty);
+      let response = {
+        status : 201,
+        data : [ {
+        id,
+        name,
+        } ]
+      };
+      return res.status(201).json(response);
+    } else {
+      return res.status(400).json({
+        status: 400,
+        error: 'A party with this name already exist'
+      });
     }
-    data[0].push(newParty);
-    let response = {
-      status : 201,
-      data : [ {
-      id,
-      name,
-      } ]
-    };
-
-    return res.status(201).json(response);
   }
 
   static async getOneParty(req, res) {
@@ -53,10 +66,8 @@ class Party {
       });
     }
     let parties = data[0];
-    let foundParty = false;
     await parties.forEach((party) => {
       if(party.id === id){
-        foundParty = true;
         let oneParty = {
           id: party.id,
           name: party.name,
@@ -69,12 +80,10 @@ class Party {
         return res.status(200).json(response);
       }
     });
-    if(!foundParty){
-      return res.status(404).json({
-        status: 404,
-        error: 'That party could not be found'
-      });
-    } 
+    return res.status(404).json({
+      status: 404,
+      error: 'That party could not be found'
+    }); 
   }
 
   static async editParty(req, res) {
