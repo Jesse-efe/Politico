@@ -7,7 +7,8 @@
     "prestart": "npm run build",
     "start": "node ./dist/app.js",
     "test": "nyc mocha --exit --require babel-core/register --timeout 10000",
-    "build": "babel source -d dist"
+    "build": "babel source -d dist",
+    "coverage": "nyc report --reporter=text-lcov | coveralls"
   },
   "repository": {
     "type": "git",
@@ -30,7 +31,8 @@
   "devDependencies": {
     "chai": "^4.2.0",
     "chai-http": "^4.2.1",
-    "eslint": "^5.3.0",
+    "coveralls": "^3.0.2",
+    "eslint": "^5.12.1",
     "eslint-config-airbnb-base": "^13.1.0",
     "eslint-plugin-import": "^2.14.0",
     "mocha": "^5.2.0",

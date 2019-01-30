@@ -1,18 +1,28 @@
-import data from '../db/storage';
+import data from '../models/storage';
 
 class Office {
-  static async createOffice(req, res) {
+  static createOffice(req, res) {
     const {
       name, type,
     } = req.body;
 
-    let id = data[1].length + 100;
+    let offices = data[1];
+    let id = offices.length + 100;
+    let foundOffice = false;
+    for(let i = 0; i < offices.length; i++){
+      if(offices[i].name === name){
+        return res.status(400).json({
+          status: 400,
+          error: 'An office with this name already exist'
+        });
+      }
+    }
     let newOffice = {
       id,
       name,
       type,
     }
-    data[1].push(newOffice);
+    offices.push(newOffice);
     let response = {
       status : 201,
       data : [ {
@@ -21,11 +31,10 @@ class Office {
       name,
     } ]
     };
-
     return res.status(201).json(response);
   }
 
-  static async getAllOffice(req, res) {
+  static getAllOffice(req, res) {
     let offices = data[1];
     let response = {
         status: 200 ,
@@ -44,23 +53,19 @@ class Office {
       });
     }
     let offices = data[1];
-    let foundOffice = false;
-    await offices.forEach((office) => {
-      if(office.id === id){
-        foundOffice = true;
+    for(let i = 0; i < offices.length; i++){
+      if(offices[i].id === id){
         let response = {
           status: 200 ,
-          data: [office],
+          data: [offices[i]],
         }
         return res.status(200).json(response);
       }
+    }
+    return res.status(404).json({
+      status: 404,
+      error: 'That office could not be found'
     });
-    if(!foundOffice){
-      return res.status(404).json({
-        status: 404,
-        error: 'That office could not be found'
-      });
-    } 
   }
 }
 
