@@ -1,8 +1,8 @@
-# Politico
-
 [![Build Status](https://travis-ci.com/Jesse-efe/Politico.svg?branch=develop)](https://travis-ci.com/Jesse-efe/Politico)
 [![Coverage Status](https://coveralls.io/repos/github/Jesse-efe/Politico/badge.svg?branch=ft-cant-create-duplicates-of-same-entity-163574839)](https://coveralls.io/github/Jesse-efe/Politico?branch=ft-cant-create-duplicates-of-same-entity-163574839)
 [![Maintainability](https://api.codeclimate.com/v1/badges/384a8468321896f6ca64/maintainability)](https://codeclimate.com/github/Jesse-efe/Politico/maintainability)
+
+# Politico
 
 This is an electronic voting system that enables citizens give their mandate to politicians running for different government offices
 while building trust in the process through transparency.
@@ -16,14 +16,20 @@ while building trust in the process through transparency.
    - Users can vote for only one politician per political office .
    - Users can see the results of election.
    
-## Technologies
-   - Javascript
-   - Node.js
-   - Express
-   - PostgreSQL
-   - Mocha/Chai
-   - HTML
-   - CSS
+## Getting Started
+   - Pull this repository and cd into it
+   - Run npm install to install all dependencies
+   - Run npm start to start the app
+   - Use Postman to visit any of the routes listed above
+   
+## Prerequisites
+   - Ensure you have NodeJs installed
+   
+## Running the tests
+   - Run npm test to run test
+
+## Break down into end to end tests
+   The various test for the app tests that the really performs its function and and handles bad user input appropriately
    
 ## Pivotal Tracker Page
    https://www.pivotaltracker.com/n/projects/2239011
@@ -75,13 +81,31 @@ while building trust in the process through transparency.
       ```
       GET /offices/<officeID>
       ```
+      
+## Built With
+   - Javascript
+   - Node.js
+   - Express
+   - ESLint
+   - Babel
+   - PostgreSQL
+   - Mocha/Chai
+   - HTML
+   - CSS
+
+## Version
+   - This is version 1 of this App
+   
+## Author
+   - Jesse Omoefe
+
+## Acknowledgments
+   - Andela
+   - Akinwale Habibullah
+   - Innocent Ngene
+   
+
     
-## Installation
-   - Pull this repository and cd into it
-   - Ensure you have NodeJs installed
-   - Run npm install to install all dependencies
-   - Run npm start to start the app
-   - Use Postman to visit any of the routes listed above
-   - Run npm test to run test
+
       
       
