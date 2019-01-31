@@ -8,7 +8,9 @@
     "start": "node ./dist/app.js",
     "test": "nyc mocha --exit --require babel-core/register --timeout 30000",
     "build": "babel source -d dist",
-    "coverage": "nyc report --reporter=text-lcov | coveralls"
+    "lint": "eslint ./source --fix",
+    "coverage": "nyc report --reporter=text-lcov | coveralls",
+    "createTables": "node --require babel-core/register ./source/models/createTables.js"
   },
   "repository": {
     "type": "git",
