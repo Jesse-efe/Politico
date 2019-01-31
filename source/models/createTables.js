@@ -1,7 +1,8 @@
 import createTables from './tables';
 import pool from './config';
 
-const createAndSeedTables = async () => {
+
+(async () => {
   await createTables();
 
   const addOffice = (officesData) => {
@@ -80,8 +81,4 @@ const createAndSeedTables = async () => {
   await addParty(partyTwo);
   await addParty(partyThree);
   console.log('seeded');
-
-  pool.end();
-};
-
-createAndSeedTables();
+})();

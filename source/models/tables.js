@@ -9,7 +9,7 @@ const createTables = async () => {
        lastname VARCHAR(50),
        othername VARCHAR(50),
        email VARCHAR(50),
-       phoneNumber INT,
+       phoneNumber BIGINT,
        passportUrl VARCHAR(1000),
        password VARCHAR(200),
        isAdmin BOOL DEFAULT '0',

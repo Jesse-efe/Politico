@@ -30,7 +30,7 @@ while building trust in the process through transparency.
    - Change the name of the sample.env file in project root to .env
    - Change the value of the testConnectionString variable to your test database connection string
    - Change the value of the devConnectionString variable to your development database connection string
-   - By default the app uses the test database, to test app in development, change the pg pool connection string in the source/models/config.js file to process.env.devConnectionString
+   - Change the value of the testConnectionString variable to your test database connection string
    - run npm run createTables
    - run npm start
    
