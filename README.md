@@ -19,17 +19,29 @@ while building trust in the process through transparency.
 ## Getting Started
    - Pull this repository and cd into it
    - Run npm install to install all dependencies
-   - Run npm start to start the app
-   - Use Postman to visit any of the routes listed above
+   - Follow the steps under "Installing" below
+   - Use Postman to visit any of the routes listed below
    
-## Prerequisites
+### Prerequisites
    - Ensure you have NodeJs installed
+   - Ensure You have PostgreSQL installed or have access to a cloud instance
+   
+### Installing
+   - Change the name of the sample.env file in project root to .env
+   - Change the value of the testConnectionString variable to your test database connection string
+   - Change the value of the devConnectionString variable to your development database connection string
+   - Change the value of the testConnectionString variable to your test database connection string
+   - run npm run createTables
+   - run npm start
    
 ## Running the tests
    - Run npm test to run test
 
-## Break down into end to end tests
+### Break down into end to end tests
    The various test for the app tests that the really performs its function and and handles bad user input appropriately
+   
+### And coding style tests
+   This project uses ESLint and extends the airbnb style guide. Run npm run lint to test code style
    
 ## Pivotal Tracker Page
    https://www.pivotaltracker.com/n/projects/2239011
