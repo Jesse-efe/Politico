@@ -6,7 +6,7 @@
   "scripts": {
     "prestart": "npm run build",
     "start": "node ./dist/app.js",
-    "test": "nyc mocha --exit --require babel-core/register --timeout 30000",
+    "test": "cross-env NODE_ENV=test nyc mocha --exit --require babel-core/register --timeout 30000",
     "build": "babel source -d dist",
     "lint": "eslint ./source --fix",
     "coverage": "nyc report --reporter=text-lcov | coveralls",
@@ -36,6 +36,7 @@
     "chai": "^4.2.0",
     "chai-http": "^4.2.1",
     "coveralls": "^3.0.2",
+    "cross-env": "^5.2.0",
     "eslint": "^5.12.1",
     "eslint-config-airbnb-base": "^13.1.0",
     "eslint-plugin-import": "^2.14.0",

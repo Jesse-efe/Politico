@@ -1,6 +1,6 @@
 import pool from './config';
 
-const seedDb = async () => {
+const createTables = async () => {
   let sql = `DROP TABLE IF EXISTS users;
     CREATE TABLE users
     (
@@ -40,4 +40,4 @@ const seedDb = async () => {
   console.log('created');
 };
 
-export default seedDb;
+export default createTables;

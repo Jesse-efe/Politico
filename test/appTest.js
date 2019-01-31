@@ -1,14 +1,14 @@
 import chai from 'chai';
 import chaiHttp from 'chai-http';
 import app from '../source/app';
-import seedDb from '../source/models/tables';
+import createTables from '../source/models/tables';
 
 const { expect } = chai;
 chai.use(chaiHttp);
 
 describe('App.js', () => {
   before(async () => {
-    await seedDb();
+    await createTables();
   });
   describe('/api/v1/parties', () => {
     it('party name should be defined', (done) => {
