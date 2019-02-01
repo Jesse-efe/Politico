@@ -10,6 +10,104 @@ describe('App.js', () => {
   before(async () => {
     await createTables();
   });
+
+  describe('/api/v1/auth/signup', () => {
+    it('cant signup without any data', (done) => {
+      chai.request(app)
+        .post('/api/v1/auth/signup')
+        .send({
+        })
+        .end((err, res) => {
+          expect(res).to.be.json;
+          expect(res).to.have.status(400);
+          expect(res.body.error).to.equal('please provide valid values for firstname, lastname, othername, email, phoneNumber, passport, password');
+          done();
+        });
+    });
+
+    it('passport should be a valid url', (done) => {
+      chai.request(app)
+        .post('/api/v1/auth/signup')
+        .send({
+          firstname: 'john',
+          lastname: 'doe',
+          othername: 'ben',
+          email: 'very@email.drn',
+          phoneNumber: 5678392,
+          passportUrl: 'hgjknds',
+          password: 'hdbsj',
+        })
+        .end((err, res) => {
+          expect(res).to.be.json;
+          expect(res).to.have.status(400);
+          expect(res.body.error).to.equal('please provide valid values for passport');
+          done();
+        });
+    });
+
+    it('email should be a valid', (done) => {
+      chai.request(app)
+        .post('/api/v1/auth/signup')
+        .send({
+          firstname: 'john',
+          lastname: 'doe',
+          othername: 'ben',
+          email: 'veryemaildrn',
+          phoneNumber: 5678392,
+          passportUrl: 'hgjknds.jg',
+          password: 'hdbsj',
+        })
+        .end((err, res) => {
+          expect(res).to.be.json;
+          expect(res).to.have.status(400);
+          expect(res.body.error).to.equal('please provide valid values for email');
+          done();
+        });
+    });
+
+    it('should sign user up', (done) => {
+      chai.request(app)
+        .post('/api/v1/auth/signup')
+        .send({
+          firstname: 'john',
+          lastname: 'doe',
+          othername: 'ben',
+          email: 'johnDoe@gmail.com',
+          phoneNumber: 5678392,
+          passportUrl: 'hgjknds.jg',
+          password: 'hdbsj',
+        })
+        .end((err, res) => {
+          expect(res).to.be.json;
+          expect(res).to.have.status(201);
+          expect(res.body.data[0].user.id).to.equal(1);
+          expect(res.body.data[0].user.email).to.equal('johnDoe@gmail.com');
+          done();
+        });
+    });
+
+    it('should not sign user up twice', (done) => {
+      chai.request(app)
+        .post('/api/v1/auth/signup')
+        .send({
+          firstname: 'john',
+          lastname: 'doe',
+          othername: 'ben',
+          email: 'johnDoe@gmail.com',
+          phoneNumber: 5678392,
+          passportUrl: 'hgjknds.jg',
+          password: 'hdbsj',
+        })
+        .end((err, res) => {
+          expect(res).to.be.json;
+          expect(res).to.have.status(400);
+          expect(res.body.error).to.equal('You are already a rigistered user please signin');
+          done();
+        });
+    });
+
+  });
+
   describe('/api/v1/parties', () => {
     it('party name should be defined', (done) => {
       chai.request(app)
