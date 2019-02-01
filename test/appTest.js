@@ -101,7 +101,7 @@ describe('App.js', () => {
         .end((err, res) => {
           expect(res).to.be.json;
           expect(res).to.have.status(400);
-          expect(res.body.error).to.equal('You are already a rigistered user please signin');
+          expect(res.body.error).to.equal('a user with this email already exists');
           done();
         });
     });

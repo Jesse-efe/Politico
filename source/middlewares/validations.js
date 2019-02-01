@@ -67,7 +67,10 @@ export const checkSignupData = (req, res, next) => {
     foundError = true;
     error.push('email');
   }
-  if (isNaN(Number(phoneNumber.toString()))) {
+  if (othername === phoneNumber || trimValue(phoneNumber.toString()) === '') {
+    foundError = true;
+    error.push('phoneNumber');
+  } else if (isNaN(Number(phoneNumber.toString()))) {
     foundError = true;
     error.push('phoneNumber');
   }
