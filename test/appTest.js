@@ -7,8 +7,17 @@ const { expect } = chai;
 chai.use(chaiHttp);
 
 describe('App.js', () => {
+  let adminToken;
+
   before(async () => {
     await createTables();
+    const res = await chai.request(app)
+      .post('/api/v1/auth/login')
+      .send({
+        email: 'jesse@gmail.com',
+        password: 'adminpass',
+      });
+    adminToken = res.body.data[0].token;
   });
 
   describe('/api/v1/auth/signup', () => {
@@ -100,7 +109,7 @@ describe('App.js', () => {
         .end((err, res) => {
           expect(res).to.be.json;
           expect(res).to.have.status(201);
-          expect(res.body.data[0].user.id).to.equal(1);
+          expect(res.body.data[0].user.id).to.equal(2);
           expect(res.body.data[0].user.email).to.equal('johnDoe@gmail.com');
           done();
         });
@@ -128,10 +137,101 @@ describe('App.js', () => {
 
   });
 
+  describe('/api/v1/auth/login', () => {
+    it('should not login without any credential', (done) => {
+      chai.request(app)
+        .post('/api/v1/auth/login')
+        .send({
+        })
+        .end((err, res) => {
+          expect(res).to.be.json;
+          expect(res).to.have.status(400);
+          expect(res.body.error).to.equal('please provide a valid value for email and password');
+          done();
+        });
+    });
+
+    it('should not login with invalid email', (done) => {
+      chai.request(app)
+        .post('/api/v1/auth/login')
+        .send({
+          email: 'vermaildrn',
+          password: 'hdbsj',
+        })
+        .end((err, res) => {
+          expect(res).to.be.json;
+          expect(res).to.have.status(400);
+          expect(res.body.error).to.equal('please provide a valid value for email');
+          done();
+        });
+    });
+
+    it('should not login unregistered user', (done) => {
+      chai.request(app)
+        .post('/api/v1/auth/login')
+        .send({
+          email: 'johnkkDoe@gmail.com',
+          password: 'hxdfghdbsj',
+        })
+        .end((err, res) => {
+          expect(res).to.be.json;
+          expect(res).to.have.status(401);
+          expect(res.body.error).to.equal('Auth failed');
+          done();
+        });
+    });
+
+    it('should not login with invalid password', (done) => {
+      chai.request(app)
+        .post('/api/v1/auth/login')
+        .send({
+          email: 'johnDoe@gmail.com',
+          password: 'hghdbsj',
+        })
+        .end((err, res) => {
+          expect(res).to.be.json;
+          expect(res).to.have.status(401);
+          expect(res.body.error).to.equal('Auth failed');
+          done();
+        });
+    });
+
+    it('should log user in', (done) => {
+      chai.request(app)
+        .post('/api/v1/auth/login')
+        .send({
+          email: 'johnDoe@gmail.com',
+          password: 'hdbsj',
+        })
+        .end((err, res) => {
+          expect(res).to.be.json;
+          expect(res).to.have.status(201);
+          expect(res.body.data[0].user.email).to.equal('johnDoe@gmail.com');
+          done();
+        });
+    });
+  });
+
   describe('/api/v1/parties', () => {
+    it('only admin can create a party', (done) => {
+      chai.request(app)
+        .post('/api/v1/parties')
+        .send({
+          logoUrl: 'ggjbh.jpg',
+          hqAddress: 'gckvhbbjjkn',
+        })
+        .end((err, res) => {
+          expect(res).to.be.json;
+          expect(res).to.have.status(401);
+          expect(res.body.error).to.equal('Auth failed');
+          done();
+        });
+    });
+
     it('party name should be defined', (done) => {
       chai.request(app)
         .post('/api/v1/parties')
+        .set('Authorization', `bearer ${adminToken}`)
         .send({
           logoUrl: '',
           hqAddress: '',
@@ -147,6 +247,7 @@ describe('App.js', () => {
     it('party name should be defined', (done) => {
       chai.request(app)
         .post('/api/v1/parties')
+        .set('Authorization', `bearer ${adminToken}`)
         .send({
           name: '   ',
           logoUrl: 'https://i1.wp.com/www.inecnigeria.org/inec/pix/GPN.png?w=573',
@@ -163,6 +264,7 @@ describe('App.js', () => {
     it('logo should be defined', (done) => {
       chai.request(app)
         .post('/api/v1/parties')
+        .set('Authorization', `bearer ${adminToken}`)
         .send({
           name: 'ona',
           hqAddress: '',
@@ -178,6 +280,7 @@ describe('App.js', () => {
     it('logo should be defined', (done) => {
       chai.request(app)
         .post('/api/v1/parties')
+        .set('Authorization', `bearer ${adminToken}`)
         .send({
           name: 'ona',
           logoUrl: '',
@@ -194,6 +297,7 @@ describe('App.js', () => {
     it('logo should be valid', (done) => {
       chai.request(app)
         .post('/api/v1/parties')
+        .set('Authorization', `bearer ${adminToken}`)
         .send({
           name: 'ona',
           logoUrl: 'picture url',
@@ -210,6 +314,7 @@ describe('App.js', () => {
     it('hqAddress should be defined', (done) => {
       chai.request(app)
         .post('/api/v1/parties')
+        .set('Authorization', `bearer ${adminToken}`)
         .send({
           name: 'ona',
           logoUrl: 'logo.jpg',
@@ -225,6 +330,7 @@ describe('App.js', () => {
     it('hqAddress should be defined', (done) => {
       chai.request(app)
         .post('/api/v1/parties')
+        .set('Authorization', `bearer ${adminToken}`)
         .send({
           name: 'ona',
           logoUrl: 'logo.jpg',
@@ -241,6 +347,7 @@ describe('App.js', () => {
     it('should create a party', (done) => {
       chai.request(app)
         .post('/api/v1/parties')
+        .set('Authorization', `bearer ${adminToken}`)
         .send({
           name: 'Davids oyetunde party',
           logoUrl: 'logo.jpg',
@@ -258,6 +365,7 @@ describe('App.js', () => {
     it('should not create duplicate party', (done) => {
       chai.request(app)
         .post('/api/v1/parties')
+        .set('Authorization', `bearer ${adminToken}`)
         .send({
           name: 'Davids oyetunde party',
           logoUrl: 'logo.jpg',
@@ -318,9 +426,21 @@ describe('App.js', () => {
         });
     });
 
+    it('only admin can edit a party', (done) => {
+      chai.request(app)
+        .patch('/api/v1/parties/n/name')
+        .end((err, res) => {
+          expect(res).to.be.json;
+          expect(res).to.have.status(401);
+          expect(res.body.error).to.equal('Auth failed');
+          done();
+        });
+    });
+
     it('should edit a valid party', (done) => {
       chai.request(app)
         .patch('/api/v1/parties/n/name')
+        .set('Authorization', `bearer ${adminToken}`)
         .end((err, res) => {
           expect(res).to.be.json;
           expect(res).to.have.status(400);
@@ -332,6 +452,7 @@ describe('App.js', () => {
     it('should send along new name to edit a party', (done) => {
       chai.request(app)
         .patch('/api/v1/parties/99/name')
+        .set('Authorization', `bearer ${adminToken}`)
         .end((err, res) => {
           expect(res).to.be.json;
           expect(res).to.have.status(400);
@@ -343,6 +464,7 @@ describe('App.js', () => {
     it('should send along valid name to edit a party', (done) => {
       chai.request(app)
         .patch('/api/v1/parties/99/name')
+        .set('Authorization', `bearer ${adminToken}`)
         .send({
           name: '   ',
         })
@@ -357,6 +479,7 @@ describe('App.js', () => {
     it('should edit an existing party', (done) => {
       chai.request(app)
         .patch('/api/v1/parties/99/name')
+        .set('Authorization', `bearer ${adminToken}`)
         .send({
           name: 'Good Party',
         })
@@ -371,6 +494,7 @@ describe('App.js', () => {
     it('should edit a party', (done) => {
       chai.request(app)
         .patch('/api/v1/parties/1/name')
+        .set('Authorization', `bearer ${adminToken}`)
         .send({
           name: 'Very Good Party',
         })
@@ -382,9 +506,21 @@ describe('App.js', () => {
         });
     });
 
+    it('only admin can delete a party', (done) => {
+      chai.request(app)
+        .delete('/api/v1/parties/jjj')
+        .end((err, res) => {
+          expect(res).to.be.json;
+          expect(res).to.have.status(401);
+          expect(res.body.error).to.equal('Auth failed');
+          done();
+        });
+    });
+
     it('should delete a valid party', (done) => {
       chai.request(app)
         .delete('/api/v1/parties/jjj')
+        .set('Authorization', `bearer ${adminToken}`)
         .end((err, res) => {
           expect(res).to.be.json;
           expect(res).to.have.status(400);
@@ -396,6 +532,7 @@ describe('App.js', () => {
     it('should delete an existing party', (done) => {
       chai.request(app)
         .delete('/api/v1/parties/12')
+        .set('Authorization', `bearer ${adminToken}`)
         .end((err, res) => {
           expect(res).to.be.json;
           expect(res).to.have.status(404);
@@ -407,6 +544,7 @@ describe('App.js', () => {
     it('should delete a party', (done) => {
       chai.request(app)
         .delete('/api/v1/parties/1')
+        .set('Authorization', `bearer ${adminToken}`)
         .end((err, res) => {
           expect(res).to.be.json;
           expect(res).to.have.status(200);
@@ -417,9 +555,24 @@ describe('App.js', () => {
   });
 
   describe('/api/v1/offices', () => {
+    it('only admin can create an office', (done) => {
+      chai.request(app)
+        .post('/api/v1/offices')
+        .send({
+          type: 'federal',
+        })
+        .end((err, res) => {
+          expect(res).to.be.json;
+          expect(res).to.have.status(401);
+          expect(res.body.error).to.equal('Auth failed');
+          done();
+        });
+    });
+
     it('office name should be defined', (done) => {
       chai.request(app)
         .post('/api/v1/offices')
+        .set('Authorization', `bearer ${adminToken}`)
         .send({
           type: 'federal',
         })
@@ -434,6 +587,7 @@ describe('App.js', () => {
     it('office name should be valid', (done) => {
       chai.request(app)
         .post('/api/v1/offices')
+        .set('Authorization', `bearer ${adminToken}`)
         .send({
           name: '',
           type: 'federal',
@@ -449,6 +603,7 @@ describe('App.js', () => {
     it('office type should be defined', (done) => {
       chai.request(app)
         .post('/api/v1/offices')
+        .set('Authorization', `bearer ${adminToken}`)
         .send({
           name: 'federal',
         })
@@ -463,6 +618,7 @@ describe('App.js', () => {
     it('office type should be valid', (done) => {
       chai.request(app)
         .post('/api/v1/offices')
+        .set('Authorization', `bearer ${adminToken}`)
         .send({
           name: 'federal',
           type: '  ',
@@ -478,6 +634,7 @@ describe('App.js', () => {
     it('office should be created', (done) => {
       chai.request(app)
         .post('/api/v1/offices')
+        .set('Authorization', `bearer ${adminToken}`)
         .send({
           name: 'House Of Representatives Lagos Central',
           type: ' federal ',
@@ -495,6 +652,7 @@ describe('App.js', () => {
     it('should not create duplicate office', (done) => {
       chai.request(app)
         .post('/api/v1/offices')
+        .set('Authorization', `bearer ${adminToken}`)
         .send({
           name: 'House Of Representatives Lagos Central',
           type: ' federal ',
