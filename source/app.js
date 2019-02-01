@@ -2,6 +2,7 @@ import express from 'express';
 import bodyParser from 'body-parser';
 import parties from './routes/parties';
 import offices from './routes/offices';
+import users from './routes/users';
 
 const PORT = process.env.PORT || 5000;
 
@@ -12,6 +13,7 @@ app.use(bodyParser.urlencoded({ extended: true }));
 
 app.use('/api/v1/parties', parties);
 app.use('/api/v1/offices', offices);
+app.use('/api/v1/auth', users);
 app.use((req, res, next) => {
   const error = new Error('Not found');
   error.status = 404;
