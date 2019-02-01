@@ -65,6 +65,26 @@ describe('App.js', () => {
         });
     });
 
+    it('phone number should be number', (done) => {
+      chai.request(app)
+        .post('/api/v1/auth/signup')
+        .send({
+          firstname: 'john',
+          lastname: 'doe',
+          othername: 'ben',
+          email: 'veryemaildr@gmail.ion',
+          phoneNumber: 'fgch',
+          passportUrl: 'hgjknds.jg',
+          password: 'hdbsj',
+        })
+        .end((err, res) => {
+          expect(res).to.be.json;
+          expect(res).to.have.status(400);
+          expect(res.body.error).to.equal('please provide valid values for phoneNumber');
+          done();
+        });
+    });
+
     it('should sign user up', (done) => {
       chai.request(app)
         .post('/api/v1/auth/signup')
