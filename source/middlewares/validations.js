@@ -67,7 +67,7 @@ export const checkSignupData = (req, res, next) => {
     foundError = true;
     error.push('email');
   }
-  if (parseInt(phoneNumber, 10) !== phoneNumber) {
+  if (isNaN(Number(phoneNumber.toString()))) {
     foundError = true;
     error.push('phoneNumber');
   }
@@ -97,8 +97,7 @@ export const checkSignupData = (req, res, next) => {
   req.body.email = email.trim();
   req.body.passportUrl = passportUrl.trim();
   req.body.password = password.trim();
-  req.body.othername = othername.trim();
-  req.body.phoneNumber = parseInt(phoneNumber, 10);
+  req.body.phoneNumber = phoneNumber.toString();
   next();
 };
 

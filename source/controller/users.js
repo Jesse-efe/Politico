@@ -17,7 +17,7 @@ class Users {
       if (result.rowCount !== 0) {
         return res.status(400).json({
           status: 400,
-          error: 'You are already a rigistered user please signin',
+          error: 'a user with this email already exists',
         });
       }
       const hashPaswd = await bcrypt.hash(password, 5);
