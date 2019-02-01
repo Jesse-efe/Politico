@@ -51,6 +51,66 @@ class Users {
       });
     }
   }
+
+  static async logUserIn(req, res) {
+    const { email, password } = req.body;
+    const query = {
+      text: 'SELECT * FROM users WHERE email = $1',
+      values: [email],
+    };
+
+    try {
+      const result = await pool.query(query);
+      if (result.rowCount !== 1) {
+        return res.status(401).json({
+          status: 401,
+          error: 'Auth failed',
+        });
+      }
+      const isCorrectPwd = await bcrypt.compare(password, result.rows[0].password);
+      let secretKey;
+      if (!isCorrectPwd) {
+        return res.status(401).json({
+          status: 401,
+          error: 'Auth failed',
+        });
+      }
+      if (result.rows[0].isadmin) {
+        secretKey = process.env.adminSecretKey;
+      } else {
+        secretKey = process.env.userSecretKey;
+      }
+      const id = result.rows[0].id;
+      const token = jwt.sign(
+        {
+          email,
+          id,
+        }, secretKey, { expiresIn: 60 * 60 },
+      );
+      const response = {
+        status: 201,
+        data: [{
+          token,
+          user: {
+            id: result.rows[0].id,
+            firstname: result.rows[0].firstname,
+            lastname: result.rows[0].lastname,
+            othername: result.rows[0].othername,
+            email: result.rows[0].email,
+            phoneNumber: result.rows[0].phonenumber,
+            passportUrl: result.rows[0].passporturl,
+            isAdmin: result.rows[0].isadmin,
+          },
+        }],
+      };
+      return res.status(201).json(response);
+    } catch (err) {
+      return res.status(500).json({
+        status: 500,
+        error: 'there was an error...please try later',
+      });
+    }
+  }
 }
 
 export default Users;

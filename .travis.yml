@@ -6,4 +6,4 @@ services:
   - postgresql
 after_success: npm run coverage
 env:
-  - userSecretKey=openSecret
+  - userSecretKey=openSecret adminSecretKey=adminHasNoSecret

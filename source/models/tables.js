@@ -1,3 +1,4 @@
+import bcrypt from 'bcryptjs';
 import pool from './config';
 
 const createTables = async () => {
@@ -36,7 +37,11 @@ const createTables = async () => {
        name VARCHAR(50),
        PRIMARY KEY (ID)
     )`;
+  const hash = await bcrypt.hash('adminpass', 5);
   await pool.query(sql);
+  await pool.query('INSERT INTO users (firstname, lastname, othername, email, phoneNumber, passportUrl, isAdmin, password) VALUES ($1, $2, $3, $4, $5, $6, $7, $8)',
+    ['jesse', 'efe', 'jesseefe', 'jesse@gmail.com', '1234567', 'logo.jpg', 1, hash]);
+
   console.log('created');
 };
 

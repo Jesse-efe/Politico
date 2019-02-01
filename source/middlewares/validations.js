@@ -100,10 +100,42 @@ export const checkSignupData = (req, res, next) => {
   req.body.email = email.trim();
   req.body.passportUrl = passportUrl.trim();
   req.body.password = password.trim();
-  req.body.phoneNumber = phoneNumber.toString();
+  req.body.othername = othername.trim();
+  req.body.phoneNumber = parseInt(phoneNumber, 10);
   next();
 };
 
+export const checkLoginData = (req, res, next) => {
+  const { email, password } = req.body;
+  let foundError = false;
+  const error = [];
+
+  const trimValue = value => value.trim();
+
+  if (email === undefined || trimValue(email) === '') {
+    foundError = true;
+    error.push('email');
+  } else if (!/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(email)) {
+    foundError = true;
+    error.push('email');
+  }
+  if (password === undefined || trimValue(password) === '') {
+    foundError = true;
+    error.push('password');
+  }
+
+  if (foundError) {
+    const ResponseError = error.join(' and ');
+    return res.status(400).json({
+      status: 400,
+      error: `please provide a valid value for ${ResponseError}`,
+    });
+  }
+
+  req.body.email = email.trim();
+  req.body.password = password.trim();
+  next();
+};
 
 export const checkEditPartyData = (req, res, next) => {
   let foundError = false;
