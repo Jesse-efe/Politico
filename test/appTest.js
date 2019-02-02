@@ -8,6 +8,7 @@ chai.use(chaiHttp);
 
 describe('App.js', () => {
   let adminToken;
+  let userToken;
 
   before(async () => {
     await createTables();
@@ -109,6 +110,7 @@ describe('App.js', () => {
         .end((err, res) => {
           expect(res).to.be.json;
           expect(res).to.have.status(201);
+          userToken = res.body.data[0].token;
           expect(res.body.data[0].user.id).to.equal(2);
           expect(res.body.data[0].user.email).to.equal('johnDoe@gmail.com');
           done();
@@ -134,7 +136,6 @@ describe('App.js', () => {
           done();
         });
     });
-
   });
 
   describe('/api/v1/auth/login', () => {
@@ -552,6 +553,86 @@ describe('App.js', () => {
           done();
         });
     });
+
+    it('should create a party', (done) => {
+      chai.request(app)
+        .post('/api/v1/parties')
+        .set('Authorization', `bearer ${adminToken}`)
+        .send({
+          name: 'Davids oyetunde party',
+          logoUrl: 'logo.jpg',
+          hqAddress: '56 baruwa str.',
+        })
+        .end((err, res) => {
+          expect(res).to.be.json;
+          expect(res).to.have.status(201);
+          expect(res.body.data[0].name).to.equal('Davids oyetunde party');
+          expect(res.body.data[0].id).to.equal(2);
+          done();
+        });
+    });
+  });
+
+  describe('/api/v1/parties/:partyId/join', () => {
+    it('must be logged in to join a party', (done) => {
+      chai.request(app)
+        .get('/api/v1/parties/1/join')
+        .end((err, res) => {
+          expect(res).to.be.json;
+          expect(res).to.have.status(401);
+          expect(res.body.error).to.equal('Auth failed');
+          done();
+        });
+    });
+
+    it('party id should be valid', (done) => {
+      chai.request(app)
+        .get('/api/v1/parties/t3/join')
+        .set('Authorization', `bearer ${userToken}`)
+        .end((err, res) => {
+          expect(res).to.be.json;
+          expect(res).to.have.status(400);
+          expect(res.body.error).to.equal('Invalid party Id');
+          done();
+        });
+    });
+
+    it('party should exist', (done) => {
+      chai.request(app)
+        .get('/api/v1/parties/9/join')
+        .set('Authorization', `bearer ${userToken}`)
+        .end((err, res) => {
+          expect(res).to.be.json;
+          expect(res).to.have.status(404);
+          expect(res.body.error).to.equal('That party could not be found');
+          done();
+        });
+    });
+
+
+    it('should join party', (done) => {
+      chai.request(app)
+        .get('/api/v1/parties/2/join')
+        .set('Authorization', `bearer ${userToken}`)
+        .end((err, res) => {
+          expect(res).to.be.json;
+          expect(res).to.have.status(201);
+          expect(res.body.data[0].message).to.equal('successful');
+          done();
+        });
+    });
+
+    it('should not join for a user already a party member', (done) => {
+      chai.request(app)
+        .get('/api/v1/parties/2/join')
+        .set('Authorization', `bearer ${userToken}`)
+        .end((err, res) => {
+          expect(res).to.be.json;
+          expect(res).to.have.status(400);
+          expect(res.body.error).to.equal('you are already a member of a party');
+          done();
+        });
+    });
   });
 
   describe('/api/v1/offices', () => {
@@ -709,6 +790,140 @@ describe('App.js', () => {
           expect(res.body.data[0].name).to.equal('House Of Representatives Lagos Central');
           expect(res.body.data[0].type).to.equal('federal');
           expect(res.body.data[0].id).to.equal(1);
+          done();
+        });
+    });
+  });
+
+  describe('/api/v1/offices/:userId/:officeId', () => {
+    it('must be logged in to express interest', (done) => {
+      chai.request(app)
+        .get('/api/v1/offices/ty/7')
+        .end((err, res) => {
+          expect(res).to.be.json;
+          expect(res).to.have.status(401);
+          expect(res.body.error).to.equal('Auth failed');
+          done();
+        });
+    });
+
+    it('user id should be valid', (done) => {
+      chai.request(app)
+        .get('/api/v1/offices/ty/7')
+        .set('Authorization', `bearer ${userToken}`)
+        .end((err, res) => {
+          expect(res).to.be.json;
+          expect(res).to.have.status(400);
+          expect(res.body.error).to.equal('Invalid user Id');
+          done();
+        });
+    });
+
+    it('office id should be valid', (done) => {
+      chai.request(app)
+        .get('/api/v1/offices/7/two')
+        .set('Authorization', `bearer ${userToken}`)
+        .end((err, res) => {
+          expect(res).to.be.json;
+          expect(res).to.have.status(400);
+          expect(res.body.error).to.equal('Invalid office Id');
+          done();
+        });
+    });
+
+    it('cant express interest with another user id', (done) => {
+      chai.request(app)
+        .get('/api/v1/offices/7/8')
+        .set('Authorization', `bearer ${userToken}`)
+        .end((err, res) => {
+          expect(res).to.be.json;
+          expect(res).to.have.status(400);
+          expect(res.body.error).to.equal('Auth failed');
+          done();
+        });
+    });
+
+    it('office should exist', (done) => {
+      chai.request(app)
+        .get('/api/v1/offices/2/8')
+        .set('Authorization', `bearer ${userToken}`)
+        .end((err, res) => {
+          expect(res).to.be.json;
+          expect(res).to.have.status(400);
+          expect(res.body.error).to.equal('that office does not exist');
+          done();
+        });
+    });
+
+    it('should express interest sucessfully', (done) => {
+      chai.request(app)
+        .get('/api/v1/offices/2/1')
+        .set('Authorization', `bearer ${userToken}`)
+        .end((err, res) => {
+          expect(res).to.be.json;
+          expect(res).to.have.status(201);
+          expect(res.body.data[0].message).to.equal('successful');
+          done();
+        });
+    });
+
+    it('should not express interest more than once', (done) => {
+      chai.request(app)
+        .get('/api/v1/offices/2/1')
+        .set('Authorization', `bearer ${userToken}`)
+        .end((err, res) => {
+          expect(res).to.be.json;
+          expect(res).to.have.status(400);
+          expect(res.body.error).to.equal('You have already expressed interest to run for an office');
+          done();
+        });
+    });
+  });
+
+  describe('/api/v1/offices/:id/register', () => {
+    it('must be an admin to access this route', (done) => {
+      chai.request(app)
+        .post('/api/v1/offices/5/register')
+        .end((err, res) => {
+          expect(res).to.be.json;
+          expect(res).to.have.status(401);
+          expect(res.body.error).to.equal('Auth failed');
+          done();
+        });
+    });
+
+    it('user id should be valid', (done) => {
+      chai.request(app)
+        .post('/api/v1/offices/five/register')
+        .set('Authorization', `bearer ${adminToken}`)
+        .end((err, res) => {
+          expect(res).to.be.json;
+          expect(res).to.have.status(400);
+          expect(res.body.error).to.equal('Invalid user Id');
+          done();
+        });
+    });
+
+    it('should register only interested users', (done) => {
+      chai.request(app)
+        .post('/api/v1/offices/17/register')
+        .set('Authorization', `bearer ${adminToken}`)
+        .end((err, res) => {
+          expect(res).to.be.json;
+          expect(res).to.have.status(400);
+          expect(res.body.error).to.equal('This user is not interested in running for an office');
+          done();
+        });
+    });
+
+    it('should register a user', (done) => {
+      chai.request(app)
+        .post('/api/v1/offices/2/register')
+        .set('Authorization', `bearer ${adminToken}`)
+        .end((err, res) => {
+          expect(res).to.be.json;
+          expect(res).to.have.status(201);
+          expect(res.body.data[0].user).to.equal(2);
           done();
         });
     });

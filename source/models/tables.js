@@ -29,6 +29,33 @@ const createTables = async () => {
     )`;
   await pool.query(sql);
 
+  sql = `DROP TABLE IF EXISTS candidates;
+    CREATE TABLE candidates
+    (
+       id SERIAL,
+       office INT,
+       party INT,
+       candidate INT
+    )`;
+  await pool.query(sql);
+
+  sql = `DROP TABLE IF EXISTS interestedUsers;
+    CREATE TABLE interestedUsers
+    (
+       office INT,
+       userId INT,
+       partyId INT
+    )`;
+  await pool.query(sql);
+
+  sql = `DROP TABLE IF EXISTS partyMembers;
+    CREATE TABLE partyMembers
+    (
+       partyId INT,
+       userId INT
+    )`;
+  await pool.query(sql);
+
   sql = `DROP TABLE IF EXISTS offices;
     CREATE TABLE offices
     (
@@ -41,7 +68,6 @@ const createTables = async () => {
   await pool.query(sql);
   await pool.query('INSERT INTO users (firstname, lastname, othername, email, phoneNumber, passportUrl, isAdmin, password) VALUES ($1, $2, $3, $4, $5, $6, $7, $8)',
     ['jesse', 'efe', 'jesseefe', 'jesse@gmail.com', '1234567', 'logo.jpg', 1, hash]);
-
   console.log('created');
 };
 
