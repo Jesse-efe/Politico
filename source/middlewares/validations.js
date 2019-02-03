@@ -201,3 +201,33 @@ export const checkOfficeData = (req, res, next) => {
   req.body.type = type.trim();
   next();
 };
+
+export const checkPostVote = (req, res, next) => {
+  let foundError = false;
+  const error = [];
+  const {
+    office, candidate,
+  } = req.body;
+
+  if (office === undefined || isNaN(parseInt(office, 10))) {
+    foundError = true;
+    error.push('office');
+  }
+  if (candidate === undefined || isNaN(parseInt(candidate, 10))) {
+    foundError = true;
+    error.push('candidate');
+  }
+
+  if (foundError) {
+    const ResponseError = error.join(' and ');
+    return res.status(400).json({
+      status: 400,
+      error: `please provide a valid value for ${ResponseError}`,
+    });
+  }
+
+  req.body.office = parseInt(office, 10);
+  req.body.candidate = parseInt(candidate, 10);
+  req.body.voter = req.userData.id;
+  next();
+};

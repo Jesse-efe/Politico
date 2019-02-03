@@ -928,4 +928,95 @@ describe('App.js', () => {
         });
     });
   });
+
+  describe('/api/v1/votes', () => {
+    it('must be logged in to vote', (done) => {
+      chai.request(app)
+        .post('/api/v1/votes')
+        .send({
+          office: 1, candidate: 1,
+        })
+        .end((err, res) => {
+          expect(res).to.be.json;
+          expect(res).to.have.status(401);
+          expect(res.body.error).to.equal('Auth failed');
+          done();
+        });
+    });
+
+    it('office and candidate id should be valid', (done) => {
+      chai.request(app)
+        .post('/api/v1/votes')
+        .set('Authorization', `bearer ${userToken}`)
+        .send({
+          office: 'one', candidate: '',
+        })
+        .end((err, res) => {
+          expect(res).to.be.json;
+          expect(res).to.have.status(400);
+          expect(res.body.error).to.equal('please provide a valid value for office and candidate');
+          done();
+        });
+    });
+
+    it('candidate must be a registered candidate', (done) => {
+      chai.request(app)
+        .post('/api/v1/votes')
+        .set('Authorization', `bearer ${userToken}`)
+        .send({
+          office: '1', candidate: '6',
+        })
+        .end((err, res) => {
+          expect(res).to.be.json;
+          expect(res).to.have.status(400);
+          expect(res.body.error).to.equal('your candidate is not a registered candidate');
+          done();
+        });
+    });
+
+    it('vote for the same office candidate is running for', (done) => {
+      chai.request(app)
+        .post('/api/v1/votes')
+        .set('Authorization', `bearer ${userToken}`)
+        .send({
+          office: '3', candidate: '2',
+        })
+        .end((err, res) => {
+          expect(res).to.be.json;
+          expect(res).to.have.status(400);
+          expect(res.body.error).to.equal('your candidate is not running for that office');
+          done();
+        });
+    });
+
+    it('should vote for candidate', (done) => {
+      chai.request(app)
+        .post('/api/v1/votes')
+        .set('Authorization', `bearer ${userToken}`)
+        .send({
+          office: '1', candidate: '2',
+        })
+        .end((err, res) => {
+          expect(res).to.be.json;
+          expect(res).to.have.status(201);
+          expect(res.body.data[0].candidate).to.equal(2);
+          done();
+        });
+    });
+
+    it('should not vote twice for same office', (done) => {
+      chai.request(app)
+        .post('/api/v1/votes')
+        .set('Authorization', `bearer ${userToken}`)
+        .send({
+          office: '1', candidate: '3',
+        })
+        .end((err, res) => {
+          expect(res).to.be.json;
+          expect(res).to.have.status(400);
+          expect(res.body.error).to.equal('you have already voted for this office');
+          done();
+        });
+    });
+  });
 });
