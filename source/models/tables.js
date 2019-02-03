@@ -35,7 +35,18 @@ const createTables = async () => {
        id SERIAL,
        office INT,
        party INT,
-       candidate INT
+       candidate INT,
+       PRIMARY KEY (candidate)
+    )`;
+  await pool.query(sql);
+
+  sql = `DROP TABLE IF EXISTS votes;
+    CREATE TABLE votes
+    (
+       office INT,
+       voter INT,
+       candidate INT,
+       PRIMARY KEY (office)
     )`;
   await pool.query(sql);
 

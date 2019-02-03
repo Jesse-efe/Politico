@@ -199,6 +199,19 @@ class Office {
       }
       const officeId = result.rows[0].office;
       const partyId = result.rows[0].partyid;
+
+      query = {
+        text: 'SELECT * FROM candidates WHERE candidate = $1',
+        values: [id],
+      };
+      result = await pool.query(query);
+      if (result.rowCount !== 0) {
+        return res.status(400).json({
+          status: 400,
+          error: 'this candidate is already registered',
+        });
+      }
+
       query = {
         text: 'INSERT INTO candidates (office, party, candidate) VALUES ($1, $2, $3)',
         values: [officeId, partyId, id],
@@ -218,7 +231,6 @@ class Office {
         error: 'there was an error...please try later',
       });
     }
-
   }
 }
 

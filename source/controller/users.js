@@ -27,7 +27,7 @@ class Users {
       };
       const insertId = await pool.query(query);
       const secretKey = process.env.userSecretKey;
-      const id = insertId.rows[0].id;
+      const { id } = insertId.rows[0];
       const token = jwt.sign(
         {
           email,
