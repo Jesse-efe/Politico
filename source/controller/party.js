@@ -68,7 +68,7 @@ class Party {
 
   static async getOneParty(req, res) {
     let { id } = req.params;
-    id = parseInt(id);
+    id = parseInt(id, 10);
     if (isNaN(id)) {
       return res.status(400).json({
         status: 400,
@@ -180,6 +180,60 @@ class Party {
           message: 'Party deleted sucessfully',
         }],
       });
+    } catch (err) {
+      return res.status(500).json({
+        status: 500,
+        error: 'there was an error...please try later',
+      });
+    }
+  }
+
+  static async joinParty(req, res) {
+    const userId = req.userData.id;
+    let { partyId } = req.params;
+    
+    partyId = parseInt(partyId, 10);
+    if (isNaN(partyId)) {
+      return res.status(400).json({
+        status: 400,
+        error: 'Invalid party Id',
+      });
+    }
+    let query = {
+      text: 'SELECT * FROM parties WHERE id = $1',
+      values: [partyId],
+    };
+    try {
+      let result = await pool.query(query);
+      if (result.rowCount !== 1) {
+        return res.status(404).json({
+          status: 404,
+          error: 'That party could not be found',
+        });
+      }
+      query = {
+        text: 'SELECT * FROM partyMembers WHERE userId = $1',
+        values: [userId],
+      };
+      result = await pool.query(query);
+      if (result.rowCount !== 0) {
+        return res.status(400).json({
+          status: 400,
+          error: 'you are already a member of a party',
+        });
+      }
+      query = {
+        text: 'INSERT INTO partyMembers (partyId, userId) VALUES ($1, $2)',
+        values: [partyId, userId],
+      };
+      await pool.query(query);
+      const response = {
+        status: 201,
+        data: [{
+          message: 'successful',
+        }],
+      };
+      return res.status(201).json(response);
     } catch (err) {
       return res.status(500).json({
         status: 500,
