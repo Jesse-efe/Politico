@@ -80,7 +80,7 @@ class Users {
       } else {
         secretKey = process.env.userSecretKey;
       }
-      const id = result.rows[0].id;
+      const { id } = result.rows[0];
       const token = jwt.sign(
         {
           email,

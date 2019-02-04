@@ -35,8 +35,7 @@ const createTables = async () => {
        id SERIAL,
        office INT,
        party INT,
-       candidate INT,
-       PRIMARY KEY (candidate)
+       candidate INT
     )`;
   await pool.query(sql);
 
@@ -45,8 +44,7 @@ const createTables = async () => {
     (
        office INT,
        voter INT,
-       candidate INT,
-       PRIMARY KEY (office)
+       candidate INT
     )`;
   await pool.query(sql);
 

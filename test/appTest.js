@@ -1019,4 +1019,39 @@ describe('App.js', () => {
         });
     });
   });
+
+  describe('/api/v1/offices/:id/result', () => {
+    it('office id should be valid', (done) => {
+      chai.request(app)
+        .post('/api/v1/offices/t3/result')
+        .end((err, res) => {
+          expect(res).to.be.json;
+          expect(res).to.have.status(400);
+          expect(res.body.error).to.equal('Invalid office Id');
+          done();
+        });
+    });
+
+    it('office should exist', (done) => {
+      chai.request(app)
+        .post('/api/v1/offices/3/result')
+        .end((err, res) => {
+          expect(res).to.be.json;
+          expect(res).to.have.status(404);
+          expect(res.body.error).to.equal('That office could not be found');
+          done();
+        });
+    });
+
+    it('should get result', (done) => {
+      chai.request(app)
+        .post('/api/v1/offices/1/result')
+        .end((err, res) => {
+          expect(res).to.be.json;
+          expect(res).to.have.status(200);
+          expect(res.body.data[0].office).to.equal(1);
+          done();
+        });
+    });
+  });
 });
