@@ -232,6 +232,57 @@ class Office {
       });
     }
   }
+
+  static async getResult(req, res) {
+    let { id } = req.params;
+    id = parseInt(id, 10);
+    if (isNaN(id)) {
+      return res.status(400).json({
+        status: 400,
+        error: 'Invalid office Id',
+      });
+    }
+
+    let query = {
+      text: 'SELECT * FROM offices WHERE id = $1',
+      values: [id],
+    };
+    try {
+      let result = await pool.query(query);
+      if (result.rowCount !== 1) {
+        return res.status(404).json({
+          status: 404,
+          error: 'That office could not be found',
+        });
+      }
+
+      query = {
+        text: 'SELECT candidate, COUNT(candidate) FROM votes WHERE office = $1 GROUP BY candidate',
+        values: [id],
+      };
+      result = await pool.query(query);
+      const candidatesCount = result.rows;
+      const electionResult = [];
+      for (let i = 0; i < candidatesCount.length; i++) {
+        const oneResult = {
+          office: id,
+          candidate: candidatesCount[i].candidate,
+          result: Number(candidatesCount[i].count),
+        };
+        electionResult.push(oneResult);
+      }
+      const response = {
+        status: 200,
+        data: electionResult,
+      };
+      return res.status(200).json(response);
+    } catch (err) {
+      return res.status(500).json({
+        status: 500,
+        error: 'there was an error...please try later',
+      });
+    }
+  }
 }
 
 export default Office;

@@ -148,7 +148,7 @@ export const checkEditPartyData = (req, res, next) => {
     name,
   } = req.body;
 
-  id = parseInt(id);
+  id = parseInt(id, 10);
   if (isNaN(id)) {
     foundError = true;
     error.push('Invalid party Id');

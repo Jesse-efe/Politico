@@ -149,7 +149,7 @@ class Party {
 
   static async deleteParty(req, res) {
     let { id } = req.params;
-    id = parseInt(id);
+    id = parseInt(id, 10);
     if (isNaN(id)) {
       return res.status(400).json({
         status: 400,
@@ -191,7 +191,7 @@ class Party {
   static async joinParty(req, res) {
     const userId = req.userData.id;
     let { partyId } = req.params;
-    
+
     partyId = parseInt(partyId, 10);
     if (isNaN(partyId)) {
       return res.status(400).json({
