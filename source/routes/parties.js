@@ -1,7 +1,6 @@
 import express from 'express';
 import party from '../controller/party';
-import isAdmin from '../middlewares/isAdmin';
-import isLoggedIn from '../middlewares/isLoggedIn';
+import { isAdmin, isLoggedIn } from '../middlewares/secureRoutes';
 import { checkPartyData, checkEditPartyData } from '../middlewares/validations';
 
 const Router = express.Router();

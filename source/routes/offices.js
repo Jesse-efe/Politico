@@ -1,7 +1,6 @@
 import express from 'express';
 import office from '../controller/office';
-import isAdmin from '../middlewares/isAdmin';
-import isLoggedIn from '../middlewares/isLoggedIn';
+import { isAdmin, isLoggedIn } from '../middlewares/secureRoutes';
 import { checkOfficeData } from '../middlewares/validations';
 
 const Router = express.Router();
