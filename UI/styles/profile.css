@@ -66,6 +66,28 @@ nav .nav-item button:hover{
     padding-top: 1rem;
     width: 20rem;
 }
+#side-bar .user-area{
+    width: 100%;
+    height: 20rem;
+    border-bottom: 1px grey solid;
+    margin-bottom: 1rem;
+}
+#side-bar .user-area span{
+    margin: 1rem 1rem;
+}
+#side-bar .user-area .picture{
+    background: linear-gradient(
+        rgba(5, 125, 181, 0.281),
+        rgba(5, 119, 181, 0.274)
+    ), url(https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcShZ1n2MJgWPZt-xY4hd1gC27L54S4_AZ31me8tInH4JEU3ReIAVA)
+    no-repeat;
+    background-size: cover;
+    background-position: center;
+    /* width: 80%; */
+    height: 80%;
+    /* border-radius: 50%; */
+    margin: 0 1rem 1rem 1rem;
+}
 #side-bar .menu-item{
     height: 4rem;
     border: .1rem darkgray solid;
