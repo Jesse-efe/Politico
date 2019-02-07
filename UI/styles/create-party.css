@@ -115,6 +115,24 @@ nav .nav-item button:hover{
     margin-top: 2rem;
     margin-bottom: 2rem;
 }
+.main .result-div{
+    width: 30rem;
+    padding: 1rem;
+    background-color: skyblue;
+    border-radius: .5rem;
+    border: 1px solid grey;
+    margin: .5rem 0 1.5rem 0;
+    font-size: 1.4rem;
+    display: none;
+}
+.main .loading{
+    margin: 0rem 0 .7rem 0;
+}
+.loading>img{
+    height: 45px;
+    width: 45px;
+    display: none;
+}
 .main > .box{
     padding: 2rem 0 3rem 0;
     border: 1px #DDDDDD solid;

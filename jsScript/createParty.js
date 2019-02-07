@@ -1,37 +1,42 @@
-const address = 'https://politico-jes.herokuapp.com/api/v1/auth/login';
-const signInForm = document.getElementById('sign-in-form');
+const address = 'https://politico-jes.herokuapp.com/api/v1/parties';
+const partyForm = document.getElementById('sign-in-form');
 
-const signInFormHandler = (e) => {
+const createPartyFormHandler = (e) => {
   e.preventDefault();
   let error = '';
   const resultDiv = document.querySelector('.result-div');
   const loading = document.querySelector('.loading>img');
   resultDiv.style.display = 'none';
-  const email = document.getElementById('sign-in-email').value.trim();
-  const password = document.getElementById('sign-in-pass').value.trim();
+  const name = document.getElementById('party-name').value.trim();
+  const hqAddress = document.getElementById('party-address').value.trim();
+  const logoUrl = document.getElementById('party-logo').value.trim();
 
-  if (email === '') {
-    error += 'Your email address is required <br />';
+
+  if (name === '') {
+    error += 'Party name is required <br />';
   }
-
-  if (password === '') {
-    error += 'Please enter your password <br />';
-  } else if (password.length < 5) {
-    error += 'Invalid password <br />';
+  if (hqAddress === '') {
+    error += 'Party address is required <br />';
+  }
+  if (logoUrl === '') {
+    error += 'Party logo URL is required <br />';
   }
 
   if (error === '') {
-    const user = {
-      email,
-      password,
+    const party = {
+      name,
+      logoUrl,
+      hqAddress,
     };
     loading.style.display = 'block';
     let success = false;
+    const token = window.localStorage.getItem('token');
     fetch(address, {
       method: 'POST',
-      body: JSON.stringify(user),
+      body: JSON.stringify(party),
       headers: {
         'Content-Type': 'application/json',
+        Authorization: `bearer ${token}`,
       },
     }).then((res) => {
       if (res.ok) {
@@ -40,18 +45,12 @@ const signInFormHandler = (e) => {
       return res.json();
     }).then((data) => {
       if (success) {
-        resultDiv.innerHTML = 'login was sucessfull';
+        resultDiv.innerHTML = 'Party was created successfully';
         resultDiv.classList.remove('error-div');
         resultDiv.classList.add('success-div');
         resultDiv.style.display = 'block';
         loading.style.display = 'none';
-        window.localStorage.setItem('token', data.data[0].token);
-        window.localStorage.setItem('id', data.data[0].user.id);
-        if (data.data[0].user.isAdmin) {
-          window.location = 'https://jesse-efe.github.io/Politico/UI/admin-parties.html';
-        } else {
-          window.location = 'https://jesse-efe.github.io/Politico/UI/user-profile.html';
-        }
+        window.location = 'https://jesse-efe.github.io/Politico/UI/admin-parties.html';
       } else {
         resultDiv.innerHTML = data.error;
         resultDiv.classList.remove('success-div');
@@ -69,4 +68,4 @@ const signInFormHandler = (e) => {
 };
 
 
-signInForm.onsubmit = signInFormHandler;
+partyForm.onsubmit = createPartyFormHandler;
