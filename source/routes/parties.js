@@ -7,7 +7,7 @@ const Router = express.Router();
 
 Router.post('/', isAdmin, checkPartyData, party.createParty);
 Router.get('/', party.getAllParty);
-Router.get('/:partyId/join', isLoggedIn, party.joinParty);
+Router.post('/:partyId/join', isLoggedIn, party.joinParty);
 Router.get('/:id', party.getOneParty);
 Router.patch('/:id/name', isAdmin, checkEditPartyData, party.editParty);
 Router.delete('/:id', isAdmin, party.deleteParty);

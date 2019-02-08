@@ -1,4 +1,3 @@
-// import data from '../models/storage';
 import pool from '../models/config';
 
 class Party {
@@ -228,12 +227,12 @@ class Party {
       };
       await pool.query(query);
       const response = {
-        status: 201,
+        status: 200,
         data: [{
           message: 'successful',
         }],
       };
-      return res.status(201).json(response);
+      return res.status(200).json(response);
     } catch (err) {
       return res.status(500).json({
         status: 500,

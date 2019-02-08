@@ -177,7 +177,7 @@ describe('App.js', () => {
         .end((err, res) => {
           expect(res).to.be.json;
           expect(res).to.have.status(401);
-          expect(res.body.error).to.equal('Auth failed');
+          expect(res.body.error).to.equal('You are not a registered please signup');
           done();
         });
     });
@@ -192,7 +192,7 @@ describe('App.js', () => {
         .end((err, res) => {
           expect(res).to.be.json;
           expect(res).to.have.status(401);
-          expect(res.body.error).to.equal('Auth failed');
+          expect(res.body.error).to.equal('Email and password do not match');
           done();
         });
     });
@@ -224,7 +224,7 @@ describe('App.js', () => {
         .end((err, res) => {
           expect(res).to.be.json;
           expect(res).to.have.status(401);
-          expect(res.body.error).to.equal('Auth failed');
+          expect(res.body.error).to.equal('token is required for authentication');
           done();
         });
     });
@@ -433,7 +433,7 @@ describe('App.js', () => {
         .end((err, res) => {
           expect(res).to.be.json;
           expect(res).to.have.status(401);
-          expect(res.body.error).to.equal('Auth failed');
+          expect(res.body.error).to.equal('token is required for authentication');
           done();
         });
     });
@@ -513,7 +513,7 @@ describe('App.js', () => {
         .end((err, res) => {
           expect(res).to.be.json;
           expect(res).to.have.status(401);
-          expect(res.body.error).to.equal('Auth failed');
+          expect(res.body.error).to.equal('token is required for authentication');
           done();
         });
     });
@@ -576,18 +576,18 @@ describe('App.js', () => {
   describe('/api/v1/parties/:partyId/join', () => {
     it('must be logged in to join a party', (done) => {
       chai.request(app)
-        .get('/api/v1/parties/1/join')
+        .post('/api/v1/parties/1/join')
         .end((err, res) => {
           expect(res).to.be.json;
           expect(res).to.have.status(401);
-          expect(res.body.error).to.equal('Auth failed');
+          expect(res.body.error).to.equal('token is required for authentication');
           done();
         });
     });
 
     it('party id should be valid', (done) => {
       chai.request(app)
-        .get('/api/v1/parties/t3/join')
+        .post('/api/v1/parties/t3/join')
         .set('Authorization', `bearer ${userToken}`)
         .end((err, res) => {
           expect(res).to.be.json;
@@ -599,7 +599,7 @@ describe('App.js', () => {
 
     it('party should exist', (done) => {
       chai.request(app)
-        .get('/api/v1/parties/9/join')
+        .post('/api/v1/parties/9/join')
         .set('Authorization', `bearer ${userToken}`)
         .end((err, res) => {
           expect(res).to.be.json;
@@ -612,11 +612,11 @@ describe('App.js', () => {
 
     it('should join party', (done) => {
       chai.request(app)
-        .get('/api/v1/parties/2/join')
+        .post('/api/v1/parties/2/join')
         .set('Authorization', `bearer ${userToken}`)
         .end((err, res) => {
           expect(res).to.be.json;
-          expect(res).to.have.status(201);
+          expect(res).to.have.status(200);
           expect(res.body.data[0].message).to.equal('successful');
           done();
         });
@@ -624,7 +624,7 @@ describe('App.js', () => {
 
     it('should not join for a user already a party member', (done) => {
       chai.request(app)
-        .get('/api/v1/parties/2/join')
+        .post('/api/v1/parties/2/join')
         .set('Authorization', `bearer ${userToken}`)
         .end((err, res) => {
           expect(res).to.be.json;
@@ -645,7 +645,7 @@ describe('App.js', () => {
         .end((err, res) => {
           expect(res).to.be.json;
           expect(res).to.have.status(401);
-          expect(res.body.error).to.equal('Auth failed');
+          expect(res.body.error).to.equal('token is required for authentication');
           done();
         });
     });
@@ -798,18 +798,18 @@ describe('App.js', () => {
   describe('/api/v1/offices/:userId/:officeId', () => {
     it('must be logged in to express interest', (done) => {
       chai.request(app)
-        .get('/api/v1/offices/ty/7')
+        .post('/api/v1/offices/ty/7')
         .end((err, res) => {
           expect(res).to.be.json;
           expect(res).to.have.status(401);
-          expect(res.body.error).to.equal('Auth failed');
+          expect(res.body.error).to.equal('token is required for authentication');
           done();
         });
     });
 
     it('user id should be valid', (done) => {
       chai.request(app)
-        .get('/api/v1/offices/ty/7')
+        .post('/api/v1/offices/ty/7')
         .set('Authorization', `bearer ${userToken}`)
         .end((err, res) => {
           expect(res).to.be.json;
@@ -821,7 +821,7 @@ describe('App.js', () => {
 
     it('office id should be valid', (done) => {
       chai.request(app)
-        .get('/api/v1/offices/7/two')
+        .post('/api/v1/offices/7/two')
         .set('Authorization', `bearer ${userToken}`)
         .end((err, res) => {
           expect(res).to.be.json;
@@ -833,7 +833,7 @@ describe('App.js', () => {
 
     it('cant express interest with another user id', (done) => {
       chai.request(app)
-        .get('/api/v1/offices/7/8')
+        .post('/api/v1/offices/7/8')
         .set('Authorization', `bearer ${userToken}`)
         .end((err, res) => {
           expect(res).to.be.json;
@@ -845,7 +845,7 @@ describe('App.js', () => {
 
     it('office should exist', (done) => {
       chai.request(app)
-        .get('/api/v1/offices/2/8')
+        .post('/api/v1/offices/2/8')
         .set('Authorization', `bearer ${userToken}`)
         .end((err, res) => {
           expect(res).to.be.json;
@@ -857,11 +857,11 @@ describe('App.js', () => {
 
     it('should express interest sucessfully', (done) => {
       chai.request(app)
-        .get('/api/v1/offices/2/1')
+        .post('/api/v1/offices/2/1')
         .set('Authorization', `bearer ${userToken}`)
         .end((err, res) => {
           expect(res).to.be.json;
-          expect(res).to.have.status(201);
+          expect(res).to.have.status(200);
           expect(res.body.data[0].message).to.equal('successful');
           done();
         });
@@ -869,7 +869,7 @@ describe('App.js', () => {
 
     it('should not express interest more than once', (done) => {
       chai.request(app)
-        .get('/api/v1/offices/2/1')
+        .post('/api/v1/offices/2/1')
         .set('Authorization', `bearer ${userToken}`)
         .end((err, res) => {
           expect(res).to.be.json;
@@ -887,7 +887,7 @@ describe('App.js', () => {
         .end((err, res) => {
           expect(res).to.be.json;
           expect(res).to.have.status(401);
-          expect(res.body.error).to.equal('Auth failed');
+          expect(res.body.error).to.equal('token is required for authentication');
           done();
         });
     });
@@ -939,7 +939,7 @@ describe('App.js', () => {
         .end((err, res) => {
           expect(res).to.be.json;
           expect(res).to.have.status(401);
-          expect(res.body.error).to.equal('Auth failed');
+          expect(res.body.error).to.equal('token is required for authentication');
           done();
         });
     });

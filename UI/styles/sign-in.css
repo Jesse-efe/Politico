@@ -82,12 +82,19 @@ nav .nav-item button:hover{
 .main .result-div{
     width: 30rem;
     padding: 1rem;
-    background-color: skyblue;
     border-radius: .5rem;
     border: 1px solid grey;
     margin: .5rem 0 1.5rem 0;
     font-size: 1.4rem;
     display: none;
+}
+.success-div{
+    background-color: #DFF2BF;
+    color: #4FA498;
+}
+.error-div{
+    background-color: #FFBABA;
+    color: #DF000C;
 }
 .main .loading{
     margin: 0rem 0 .7rem 0;

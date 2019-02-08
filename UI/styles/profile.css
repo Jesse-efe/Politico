@@ -33,12 +33,18 @@ body{
     margin: 0 15%;
     padding: 6px 0;
     display: none;
-    color: black;
-    background-color:yellowgreen;
     border-radius: 5px;
     font-size: 14px;
     font-weight: bold;
     z-index: 999;
+}
+.success-div{
+    background-color: #DFF2BF;
+    color: #4FA498;
+}
+.error-div{
+    background-color: #FFBABA;
+    color: #DF000C;
 }
 button{
     cursor: pointer;
