@@ -58,6 +58,14 @@ nav .nav-item button:hover{
     background-color: #252326;
     color: white;
 }
+.success-div{
+    background-color: #DFF2BF;
+    color: #4FA498;
+}
+.error-div{
+    background-color: #FFBABA;
+    color: #DF000C;
+}
 #side-bar{
     grid-area: s;
     background-color: darkgray;

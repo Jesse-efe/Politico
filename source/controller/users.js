@@ -64,7 +64,7 @@ class Users {
       if (result.rowCount !== 1) {
         return res.status(401).json({
           status: 401,
-          error: 'Auth failed',
+          error: 'You are not a registered please signup',
         });
       }
       const isCorrectPwd = await bcrypt.compare(password, result.rows[0].password);
@@ -72,7 +72,7 @@ class Users {
       if (!isCorrectPwd) {
         return res.status(401).json({
           status: 401,
-          error: 'Auth failed',
+          error: 'Email and password do not match',
         });
       }
       if (result.rows[0].isadmin) {

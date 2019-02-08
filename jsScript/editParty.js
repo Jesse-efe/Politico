@@ -1,5 +1,4 @@
-// const address = 'https://politico-jes.herokuapp.com/api/v1/parties';
-const address = 'http://localhost:5000/api/v1/parties';
+const address = 'https://politico-jes.herokuapp.com/api/v1/parties';
 const partyId = window.localStorage.getItem('partyId');
 const formContainer = document.querySelector('.form');
 

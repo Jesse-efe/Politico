@@ -40,6 +40,14 @@ nav .logo{
     font-weight: bold;
     display: inline;
 }
+.success-div{
+    background-color: #DFF2BF;
+    color: #4FA498;
+}
+.error-div{
+    background-color: #FFBABA;
+    color: #DF000C;
+}
 nav .nav-item{
     float: right;
     margin: 1rem;

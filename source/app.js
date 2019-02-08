@@ -4,6 +4,7 @@ import parties from './routes/parties';
 import offices from './routes/offices';
 import users from './routes/users';
 import votes from './routes/votes';
+import defaults from './routes/defaults';
 
 const PORT = process.env.PORT || 5000;
 
@@ -25,6 +26,7 @@ app.use('/api/v1/parties', parties);
 app.use('/api/v1/offices', offices);
 app.use('/api/v1/auth', users);
 app.use('/api/v1/votes', votes);
+app.use('/api/v1/', defaults);
 app.use((req, res, next) => {
   const error = new Error('Not found');
   error.status = 404;

@@ -1,15 +1,22 @@
 import jwt from 'jsonwebtoken';
 
 const checkUser = (req, res, next, secretKey) => {
+  const auth = req.headers.authorization;
+  if (auth === undefined) {
+    return res.status(401).json({
+      status: 401,
+      error: 'token is required for authentication',
+    });
+  }
+  const token = auth.split(' ')[1];
   try {
-    const token = req.headers.authorization.split(' ')[1];
     const decoded = jwt.verify(token, secretKey);
     req.userData = decoded;
     next();
   } catch (err) {
     return res.status(401).json({
       status: 401,
-      error: 'Auth failed',
+      error: 'Authentication failed',
     });
   }
 };
