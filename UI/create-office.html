@@ -54,19 +54,20 @@
             <div class="box">
                 <div class="form">
                     <h2></h2>
+                    <div class="result-div"></div>
                     <form id="sign-in-form">
                         <label for="office-name">Office Name</label>
                         <input type="text" id="office-name" class="input"><br>
                         <div class="party-type-select">
                             <label for="office-type">Office Type</label>
                             <select id="office-type">
-                                <option value="0"></option>
-                                <option value="1">Federal,</option>
-                                <option value="2">Legislative,</option>
-                                <option value="3">State,</option>
-                                <option value="3">Local government,</option>
+                                <option value="Federal">Federal</option>
+                                <option value="Legislative">Legislative</option>
+                                <option value="State">State</option>
+                                <option value="Local government">Local government</option>
                             </select>
                         </div>
+                        <span class="loading"><img src="loading.gif"></span>
                         <input type="submit" class="submit-button input" value="Create Office">
                     </form>
                 </div>
@@ -77,5 +78,6 @@
         &copy; Politico 2019
     </footer>
     <script src="js/profile.js"></script>
+    <script src="../jsScript/create-office.js"></script>
 </body>
 </html>

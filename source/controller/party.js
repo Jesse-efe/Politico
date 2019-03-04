@@ -29,7 +29,7 @@ class Party {
 
   static async createParty(req, res) {
     const {
-      name, logoUrl, hqAddress,
+      name, nameAbbreviation, logoUrl, hqAddress,
     } = req.body;
 
     let query = {
@@ -37,16 +37,29 @@ class Party {
       values: [name],
     };
     try {
-      const result = await pool.query(query);
+      let result = await pool.query(query);
       if (result.rowCount !== 0) {
         return res.status(400).json({
           status: 400,
           error: 'A party with this name already exist',
         });
       }
+
       query = {
-        text: 'INSERT INTO parties (name, logo, address) VALUES ($1, $2, $3) RETURNING id',
-        values: [name, logoUrl, hqAddress],
+        text: 'SELECT * FROM parties WHERE abbreviation = $1',
+        values: [nameAbbreviation],
+      };
+      result = await pool.query(query);
+      if (result.rowCount !== 0) {
+        return res.status(400).json({
+          status: 400,
+          error: 'A party with this name abbreviation already exist',
+        });
+      }
+
+      query = {
+        text: 'INSERT INTO parties (name, abbreviation, logo, address) VALUES ($1, $2, $3, $4) RETURNING id',
+        values: [name, nameAbbreviation, logoUrl, hqAddress],
       };
       const insertId = await pool.query(query);
       const response = {
@@ -109,7 +122,7 @@ class Party {
   static async editParty(req, res) {
     const { id } = req.params;
     const {
-      name,
+      name, nameAbbreviation,
     } = req.body;
 
     let query = {
@@ -125,13 +138,14 @@ class Party {
         });
       }
       query = {
-        text: 'UPDATE parties SET name = $1 WHERE id = $2',
-        values: [name, id],
+        text: 'UPDATE parties SET name = $1, abbreviation = $2 WHERE id = $3',
+        values: [name, nameAbbreviation, id],
       };
       await pool.query(query);
       const oneParty = {
         id,
         name,
+        nameAbbreviation,
       };
       const response = {
         status: 200,

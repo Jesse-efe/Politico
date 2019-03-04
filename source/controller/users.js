@@ -1,6 +1,7 @@
 import bcrypt from 'bcryptjs';
 import jwt from 'jsonwebtoken';
 import pool from '../models/config';
+import office from './office';
 
 class Users {
   static async signUserUp(req, res) {
@@ -87,6 +88,13 @@ class Users {
           id,
         }, secretKey, { expiresIn: 60 * 60 },
       );
+
+      let isPolitician;
+      if (!await office.isPolitician(result.rows[0].id)) {
+        isPolitician = false;
+      } else {
+        isPolitician = true;
+      }
       const response = {
         status: 201,
         data: [{
@@ -100,6 +108,7 @@ class Users {
             phoneNumber: result.rows[0].phonenumber,
             passportUrl: result.rows[0].passporturl,
             isAdmin: result.rows[0].isadmin,
+            isPolitician,
           },
         }],
       };

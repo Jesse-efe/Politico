@@ -36,10 +36,11 @@ class Vote {
           error: 'your candidate is not running for that office',
         });
       }
+      const candidatesParty = result.rows[0].party;
 
       query = {
-        text: 'INSERT INTO votes (office, candidate, voter) VALUES ($1, $2, $3)',
-        values: [office, candidate, voter],
+        text: 'INSERT INTO votes (office, candidate, voter, party) VALUES ($1, $2, $3, $4)',
+        values: [office, candidate, voter, candidatesParty],
       };
       await pool.query(query);
       const response = {

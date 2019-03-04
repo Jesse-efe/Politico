@@ -18,11 +18,11 @@ import pool from './config';
 
   const addParty = (partyData) => {
     const {
-      name, logoUrl, hqAddress,
+      name, abbreviation, logoUrl, hqAddress,
     } = partyData;
     const query = {
-      text: 'INSERT INTO parties (name, logo, address) VALUES ($1, $2, $3) RETURNING id',
-      values: [name, logoUrl, hqAddress],
+      text: 'INSERT INTO parties (name, abbreviation, logo, address) VALUES ($1, $2, $3) RETURNING id',
+      values: [name, abbreviation, logoUrl, hqAddress],
     };
     pool.query(query);
   };
@@ -59,16 +59,19 @@ import pool from './config';
   };
   const partyOne = {
     name: 'Young Democratic party',
+    abbreviation: 'YDP',
     logoUrl: 'https://jesse-efe.github.io/Politico/UI/edit-party.html',
     hqAddress: 'No 34 gbagada lagos',
   };
   const partyTwo = {
     name: 'All Progressives Grand Alliance',
+    abbreviation: 'APGA',
     logoUrl: 'http://www.zikoko.com/wp-content/uploads/2018/07/APGA-Logo.jpg',
     hqAddress: 'No 174 Alaba lagos',
   };
   const partyThree = {
     name: 'Accord',
+    abbreviation: 'ACCORD',
     logoUrl: 'https://netstorage-legit.akamaized.net/images/vllkyt7lb83keb7ci.jpg',
     hqAddress: 'No 12 Badagry lagos',
   };

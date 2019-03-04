@@ -240,7 +240,7 @@ describe('App.js', () => {
         .end((err, res) => {
           expect(res).to.be.json;
           expect(res).to.have.status(400);
-          expect(res.body.error).to.equal('party name was not specified and party logo was not specified and party headquater address was not specified');
+          expect(res.body.error).to.equal('party name was not specified and party name abbreviation was not specified and party logo was not specified and party headquater address was not specified');
           done();
         });
     });
@@ -251,6 +251,7 @@ describe('App.js', () => {
         .set('Authorization', `bearer ${adminToken}`)
         .send({
           name: '   ',
+          nameAbbreviation: 'GGG',
           logoUrl: 'https://i1.wp.com/www.inecnigeria.org/inec/pix/GPN.png?w=573',
           hqAddress: 'epic',
         })
@@ -268,6 +269,7 @@ describe('App.js', () => {
         .set('Authorization', `bearer ${adminToken}`)
         .send({
           name: 'ona',
+          nameAbbreviation: 'GGG',
           hqAddress: '',
         })
         .end((err, res) => {
@@ -284,6 +286,7 @@ describe('App.js', () => {
         .set('Authorization', `bearer ${adminToken}`)
         .send({
           name: 'ona',
+          nameAbbreviation: 'GGG',
           logoUrl: '',
           hqAddress: 'epic',
         })
@@ -301,6 +304,7 @@ describe('App.js', () => {
         .set('Authorization', `bearer ${adminToken}`)
         .send({
           name: 'ona',
+          nameAbbreviation: 'GGG',
           logoUrl: 'picture url',
           hqAddress: 'epic',
         })
@@ -318,6 +322,7 @@ describe('App.js', () => {
         .set('Authorization', `bearer ${adminToken}`)
         .send({
           name: 'ona',
+          nameAbbreviation: 'GGG',
           logoUrl: 'logo.jpg',
         })
         .end((err, res) => {
@@ -334,6 +339,7 @@ describe('App.js', () => {
         .set('Authorization', `bearer ${adminToken}`)
         .send({
           name: 'ona',
+          nameAbbreviation: 'GGG',
           logoUrl: 'logo.jpg',
           hqAddress: '   ',
         })
@@ -351,6 +357,7 @@ describe('App.js', () => {
         .set('Authorization', `bearer ${adminToken}`)
         .send({
           name: 'Davids oyetunde party',
+          nameAbbreviation: 'DOP',
           logoUrl: 'logo.jpg',
           hqAddress: '56 baruwa str.',
         })
@@ -369,6 +376,7 @@ describe('App.js', () => {
         .set('Authorization', `bearer ${adminToken}`)
         .send({
           name: 'Davids oyetunde party',
+          nameAbbreviation: 'DOP',
           logoUrl: 'logo.jpg',
           hqAddress: '56 baruwa str.',
         })
@@ -376,6 +384,24 @@ describe('App.js', () => {
           expect(res).to.be.json;
           expect(res).to.have.status(400);
           expect(res.body.error).to.equal('A party with this name already exist');
+          done();
+        });
+    });
+
+    it('should not create duplicate party', (done) => {
+      chai.request(app)
+        .post('/api/v1/parties')
+        .set('Authorization', `bearer ${adminToken}`)
+        .send({
+          name: 'Davids oyetunde partyy',
+          nameAbbreviation: 'DOP',
+          logoUrl: 'logo.jpg',
+          hqAddress: '56 baruwa str.',
+        })
+        .end((err, res) => {
+          expect(res).to.be.json;
+          expect(res).to.have.status(400);
+          expect(res.body.error).to.equal('A party with this name abbreviation already exist');
           done();
         });
     });
@@ -445,19 +471,7 @@ describe('App.js', () => {
         .end((err, res) => {
           expect(res).to.be.json;
           expect(res).to.have.status(400);
-          expect(res.body.error).to.equal('Invalid party Id and party name was not specified');
-          done();
-        });
-    });
-
-    it('should send along new name to edit a party', (done) => {
-      chai.request(app)
-        .patch('/api/v1/parties/99/name')
-        .set('Authorization', `bearer ${adminToken}`)
-        .end((err, res) => {
-          expect(res).to.be.json;
-          expect(res).to.have.status(400);
-          expect(res.body.error).to.equal('party name was not specified');
+          expect(res.body.error).to.equal('Invalid party Id and party name was not specified and party name abbreviation was not specified');
           done();
         });
     });
@@ -468,11 +482,12 @@ describe('App.js', () => {
         .set('Authorization', `bearer ${adminToken}`)
         .send({
           name: '   ',
+          nameAbbreviation: '',
         })
         .end((err, res) => {
           expect(res).to.be.json;
           expect(res).to.have.status(400);
-          expect(res.body.error).to.equal('party name was not specified');
+          expect(res.body.error).to.equal('party name was not specified and party name abbreviation was not specified');
           done();
         });
     });
@@ -483,6 +498,7 @@ describe('App.js', () => {
         .set('Authorization', `bearer ${adminToken}`)
         .send({
           name: 'Good Party',
+          nameAbbreviation: 'GP',
         })
         .end((err, res) => {
           expect(res).to.be.json;
@@ -498,11 +514,13 @@ describe('App.js', () => {
         .set('Authorization', `bearer ${adminToken}`)
         .send({
           name: 'Very Good Party',
+          nameAbbreviation: 'VGP',
         })
         .end((err, res) => {
           expect(res).to.be.json;
           expect(res).to.have.status(200);
           expect(res.body.data[0].name).to.equal('Very Good Party');
+          expect(res.body.data[0].nameAbbreviation).to.equal('VGP');
           done();
         });
     });
@@ -560,6 +578,7 @@ describe('App.js', () => {
         .set('Authorization', `bearer ${adminToken}`)
         .send({
           name: 'Davids oyetunde party',
+          nameAbbreviation: 'DOP',
           logoUrl: 'logo.jpg',
           hqAddress: '56 baruwa str.',
         })
@@ -608,7 +627,6 @@ describe('App.js', () => {
           done();
         });
     });
-
 
     it('should join party', (done) => {
       chai.request(app)
@@ -1023,7 +1041,7 @@ describe('App.js', () => {
   describe('/api/v1/offices/:id/result', () => {
     it('office id should be valid', (done) => {
       chai.request(app)
-        .post('/api/v1/offices/t3/result')
+        .get('/api/v1/offices/t3/result')
         .end((err, res) => {
           expect(res).to.be.json;
           expect(res).to.have.status(400);
@@ -1034,7 +1052,7 @@ describe('App.js', () => {
 
     it('office should exist', (done) => {
       chai.request(app)
-        .post('/api/v1/offices/3/result')
+        .get('/api/v1/offices/3/result')
         .end((err, res) => {
           expect(res).to.be.json;
           expect(res).to.have.status(404);
@@ -1045,7 +1063,7 @@ describe('App.js', () => {
 
     it('should get result', (done) => {
       chai.request(app)
-        .post('/api/v1/offices/1/result')
+        .get('/api/v1/offices/1/result')
         .end((err, res) => {
           expect(res).to.be.json;
           expect(res).to.have.status(200);

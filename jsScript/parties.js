@@ -28,6 +28,7 @@ function joinParty() {
   resultDiv.classList.remove('error-div');
   resultDiv.style.display = 'block';
   fetch(`${address}/${partyId}/join`, {
+    method: 'POST',
     headers: {
       'Content-Type': 'application/json',
       Authorization: `bearer ${token}`,
