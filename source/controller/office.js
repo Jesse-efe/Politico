@@ -119,7 +119,7 @@ class Office {
     }
 
     let query = {
-      text: 'SELECT * FROM interestedUsers WHERE userId = $1',
+      text: 'SELECT * FROM interestedUsers WHERE candidate = $1',
       values: [userId],
     };
     try {
@@ -130,18 +130,26 @@ class Office {
           error: 'You have already expressed interest to run for an office',
         });
       }
-      query = {
-        text: 'SELECT * FROM partyMembers WHERE userId = $1',
-        values: [userId],
-      };
-      result = await pool.query(query);
-      if (result.rowCount !== 1) {
+
+      const userPartyId = await Office.isPolitician(userId);
+      if (!userPartyId) {
         return res.status(400).json({
           status: 400,
           error: 'You are not a member of any political party, please join one first',
         });
       }
-      const userPartyId = result.rows[0].partyid;
+      // query = {
+      //   text: 'SELECT * FROM partyMembers WHERE userId = $1',
+      //   values: [userId],
+      // };
+      // result = await pool.query(query);
+      // if (result.rowCount !== 1) {
+      //   return res.status(400).json({
+      //     status: 400,
+      //     error: 'You are not a member of any political party, please join one first',
+      //   });
+      // }
+      // const userPartyId = result.rows[0].partyid;
       query = {
         text: 'SELECT * FROM offices WHERE id = $1',
         values: [officeId],
@@ -155,7 +163,7 @@ class Office {
       }
 
       query = {
-        text: 'INSERT INTO interestedUsers (office, userId, partyId) VALUES ($1, $2, $3)',
+        text: 'INSERT INTO interestedUsers (office, candidate, party) VALUES ($1, $2, $3)',
         values: [officeId, userId, userPartyId],
       };
       await pool.query(query);
@@ -174,6 +182,19 @@ class Office {
     }
   }
 
+  static async isPolitician(userId) {
+    const query = {
+      text: 'SELECT * FROM partyMembers WHERE userId = $1',
+      values: [userId],
+    };
+    const result = await pool.query(query);
+    if (result.rowCount !== 1) {
+      return false;
+    }
+    const userPartyId = result.rows[0].partyid;
+    return userPartyId;
+  }
+
   static async register(req, res) {
     let { id } = req.params;
     id = parseInt(id, 10);
@@ -185,7 +206,7 @@ class Office {
     }
 
     let query = {
-      text: 'SELECT * FROM interestedUsers WHERE userId = $1',
+      text: 'SELECT * FROM interestedUsers WHERE candidate = $1',
       values: [id],
     };
     try {
@@ -197,7 +218,7 @@ class Office {
         });
       }
       const officeId = result.rows[0].office;
-      const partyId = result.rows[0].partyid;
+      const partyId = result.rows[0].party;
 
       query = {
         text: 'SELECT * FROM candidates WHERE candidate = $1',
@@ -212,8 +233,26 @@ class Office {
       }
 
       query = {
+        text: 'SELECT * FROM candidates WHERE office = $1 AND party = $2',
+        values: [officeId, partyId],
+      };
+      result = await pool.query(query);
+      if (result.rowCount !== 0) {
+        return res.status(400).json({
+          status: 400,
+          error: 'this party already has a registered candidate for this office',
+        });
+      }
+
+      query = {
         text: 'INSERT INTO candidates (office, party, candidate) VALUES ($1, $2, $3)',
         values: [officeId, partyId, id],
+      };
+      await pool.query(query);
+
+      query = {
+        text: 'DELETE FROM interestedUsers WHERE candidate = $1',
+        values: [id],
       };
       await pool.query(query);
       const response = {
@@ -225,6 +264,55 @@ class Office {
       };
       return res.status(201).json(response);
     } catch (err) {
+      return res.status(500).json({
+        status: 500,
+        error: 'there was an error...please try later',
+      });
+    }
+  }
+
+  static async getOfficeInterestedCandidates(req, res) {
+    const table = 'interestedUsers';
+    Office.getOfficeCandidates(req, res, table);
+  }
+
+  static async getOfficeRegisteredCandidates(req, res) {
+    const table = 'candidates';
+    Office.getOfficeCandidates(req, res, table);
+  }
+
+  static async getOfficeCandidates(req, res, table) {
+    let { id } = req.params;
+    id = parseInt(id, 10);
+    if (isNaN(id)) {
+      return res.status(400).json({
+        status: 400,
+        error: 'Invalid office Id',
+      });
+    }
+
+    const text = `SELECT u.id, u.firstname, u.lastname, u.othername, p.abbreviation FROM ${table} c INNER JOIN users u ON c.candidate = u.id INNER JOIN parties p ON c.party = p.id WHERE office = $1`;
+    const query = {
+      text,
+      values: [id],
+    };
+
+    try {
+      const result = await pool.query(query);
+      if (result.rowCount === 0) {
+        return res.status(200).json({
+          status: 200,
+          data: [],
+        });
+      }
+      const candidates = result.rows;
+      const response = {
+        status: 200,
+        data: candidates,
+      };
+      return res.status(200).json(response);
+    } catch (err) {
+      console.log(err);
       return res.status(500).json({
         status: 500,
         error: 'there was an error...please try later',
@@ -256,7 +344,7 @@ class Office {
       }
 
       query = {
-        text: 'SELECT candidate, COUNT(candidate) FROM votes WHERE office = $1 GROUP BY candidate',
+        text: 'SELECT v.candidate, u.firstname, u.lastname, u.othername, p.abbreviation, COUNT(v.candidate) FROM votes v INNER JOIN users u ON v.candidate = u.id INNER JOIN parties p ON v.party = p.id WHERE office = $1 GROUP BY v.candidate, u.firstname, u.lastname, u.othername, p.abbreviation ORDER BY count DESC',
         values: [id],
       };
       result = await pool.query(query);
@@ -266,6 +354,8 @@ class Office {
         const oneResult = {
           office: id,
           candidate: candidatesCount[i].candidate,
+          name: `${candidatesCount[i].firstname} ${candidatesCount[i].lastname} ${candidatesCount[i].othername}`,
+          party: candidatesCount[i].abbreviation,
           result: Number(candidatesCount[i].count),
         };
         electionResult.push(oneResult);

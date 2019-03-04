@@ -58,6 +58,18 @@ nav .nav-item button:hover{
     background-color: #252326;
     color: white;
 }
+#offices-result{
+    width: 70%;
+    position: fixed;
+    text-align: center;
+    margin: 0 15%;
+    padding: 6px 0;
+    display: none;
+    border-radius: 5px;
+    font-size: 14px;
+    font-weight: bold;
+    z-index: 999;
+}
 .success-div{
     background-color: #DFF2BF;
     color: #4FA498;
@@ -115,6 +127,27 @@ nav .nav-item button:hover{
 }
 #offices > .one-office .text{
     display: flex;
+}
+.result-div{
+    width: 30rem;
+    padding: .3rem;
+    border-radius: .5rem;
+    margin: .5rem auto;
+    font-size: 1.2rem;
+    display: none;
+}
+.success-div{
+    background-color: #DFF2BF;
+    color: #4FA498;
+}
+.error-div{
+    background-color: #FFBABA;
+    color: #DF000C;
+}
+.loading>img{
+    height: 4.5rem;
+    width: 4.5rem;
+    margin: 1rem;
 }
 #offices > .one-office .candidates{
     width: inherit;

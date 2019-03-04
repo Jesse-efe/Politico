@@ -1,44 +1,34 @@
-const address = 'https://politico-jes.herokuapp.com/api/v1/parties';
-const partyForm = document.getElementById('sign-in-form');
+const address = 'https://politico-jes.herokuapp.com/api/v1/offices';
+const officeForm = document.getElementById('sign-in-form');
 
-const createPartyFormHandler = (e) => {
+const createOfficeFormHandler = (e) => {
   e.preventDefault();
   let error = '';
   const resultDiv = document.querySelector('.result-div');
   const loading = document.querySelector('.loading>img');
   resultDiv.style.display = 'none';
-  const name = document.getElementById('party-name').value.trim();
-  const nameAbbreviation = document.getElementById('party-name-abbreviation').value.trim();
-  const hqAddress = document.getElementById('party-address').value.trim();
-  const logoUrl = document.getElementById('party-logo').value.trim();
+  const name = document.getElementById('office-name').value.trim();
+  const officeType = document.getElementById("office-type").value;
 
 
   if (name === '') {
-    error += 'Party name is required <br />';
+    error += 'Office name is required <br />';
   }
-  if (nameAbbreviation === '') {
-    error += 'Party name abbreviation is required <br />';
-  }
-  if (hqAddress === '') {
-    error += 'Party address is required <br />';
-  }
-  if (logoUrl === '') {
-    error += 'Party logo URL is required <br />';
+  if (officeType === '') {
+    error += 'Please select the office type<br />';
   }
 
   if (error === '') {
-    const party = {
+    const office = {
       name,
-      nameAbbreviation,
-      logoUrl,
-      hqAddress,
+      officeType,
     };
     loading.style.display = 'block';
     let success = false;
     const token = window.localStorage.getItem('token');
     fetch(address, {
       method: 'POST',
-      body: JSON.stringify(party),
+      body: JSON.stringify(office),
       headers: {
         'Content-Type': 'application/json',
         Authorization: `bearer ${token}`,
@@ -55,7 +45,7 @@ const createPartyFormHandler = (e) => {
         resultDiv.classList.add('success-div');
         resultDiv.style.display = 'block';
         loading.style.display = 'none';
-        window.location = 'https://jesse-efe.github.io/Politico/UI/admin-parties.html';
+        window.location = 'https://jesse-efe.github.io/Politico/UI/admin-offices.html';
       } else {
         resultDiv.innerHTML = data.error;
         resultDiv.classList.remove('success-div');
@@ -73,4 +63,4 @@ const createPartyFormHandler = (e) => {
 };
 
 
-partyForm.onsubmit = createPartyFormHandler;
+officeForm.onsubmit = createOfficeFormHandler;

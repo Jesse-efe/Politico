@@ -47,6 +47,9 @@ const signInFormHandler = (e) => {
         loading.style.display = 'none';
         window.localStorage.setItem('token', data.data[0].token);
         window.localStorage.setItem('id', data.data[0].user.id);
+        if (data.data[0].user.isPolitician) {
+          window.localStorage.setItem('isPolitician', 'true');
+        }
         if (data.data[0].user.isAdmin) {
           window.location = 'https://jesse-efe.github.io/Politico/UI/admin-parties.html';
         } else {

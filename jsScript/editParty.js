@@ -6,6 +6,8 @@ const editPartyTemplate = (party) => {
   const template = `<form id="sign-in-form">
     <label for="party-name">Party Name</label>
     <input type="text" id="party-name" class="input" value="${party.name}"><br>
+    <label for="party-name-abbreviation">Party Name Abbreviation</label>
+    <input type="text" id="party-name-abbreviation" class="input" value="${party.nameAbbreviation}"><br>
     <span class="loading"><img src="loading.gif"></span>
     <input type="submit" class="submit-button input" value="Edit Party">
 </form>`;
@@ -14,13 +16,17 @@ const editPartyTemplate = (party) => {
 
 const editParty = (e) => {
   e.preventDefault();
-  const error = '';
+  let error = '';
 
   const resultDiv = document.querySelector('.result-div');
   const loading = document.querySelector('.loading>img');
   const name = document.getElementById('party-name').value.trim();
+  const abbreviation = document.getElementById('party-name-abbreviation').value.trim();
   if (name === '') {
-    error = 'Party name is required';
+    error += 'Party name is required';
+  }
+  if (abbreviation === '') {
+    error += 'Party name abbreviation is required';
   }
 
   if (error === '') {

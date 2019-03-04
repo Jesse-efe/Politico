@@ -5,12 +5,16 @@ export const checkPartyData = (req, res, next) => {
   const trimValue = value => value.trim();
 
   const {
-    name, logoUrl, hqAddress,
+    name, nameAbbreviation, logoUrl, hqAddress,
   } = req.body;
 
   if (name === undefined || trimValue(name) === '') {
     foundError = true;
     error.push('party name was not specified');
+  }
+  if (nameAbbreviation === undefined || trimValue(nameAbbreviation) === '') {
+    foundError = true;
+    error.push('party name abbreviation was not specified');
   }
   if (logoUrl === undefined || trimValue(logoUrl) === '') {
     foundError = true;
@@ -33,6 +37,7 @@ export const checkPartyData = (req, res, next) => {
   }
 
   req.body.name = name.trim();
+  req.body.abbreviation = nameAbbreviation.trim();
   req.body.logoUrl = logoUrl.trim();
   req.body.hqAddress = hqAddress.trim();
   next();
@@ -145,7 +150,7 @@ export const checkEditPartyData = (req, res, next) => {
 
   let { id } = req.params;
   const {
-    name,
+    name, nameAbbreviation,
   } = req.body;
 
   id = parseInt(id, 10);
@@ -157,6 +162,10 @@ export const checkEditPartyData = (req, res, next) => {
     foundError = true;
     error.push('party name was not specified');
   }
+  if (nameAbbreviation === undefined || trimValue(nameAbbreviation) === '') {
+    foundError = true;
+    error.push('party name abbreviation was not specified');
+  }
 
   if (foundError) {
     const ResponseError = error.join(' and ');
@@ -167,6 +176,7 @@ export const checkEditPartyData = (req, res, next) => {
   }
 
   req.body.name = name.trim();
+  req.body.nameAbbreviation = nameAbbreviation.trim();
   req.params.id = id;
   next();
 };

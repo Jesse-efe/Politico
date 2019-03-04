@@ -6,7 +6,12 @@ function showCandidates() {
   } else {
     clickedButton.innerHTML = clickedButton.innerHTML === 'Show result' ? 'Hide result' : 'Show result';
   }
-  parent.nextElementSibling.style.display = parent.nextElementSibling.style.display === 'none' ? 'block' : 'none';
+  //parent.nextElementSibling.style.display = parent.nextElementSibling.style.display === 'none' ? 'block' : 'none';
+  if (parent.nextElementSibling.style.display === 'none') {
+    parent.nextElementSibling.style.display = 'block';
+  } else {
+    parent.nextElementSibling.style.display = 'none';
+  }
 }
 
 const candidates = document.getElementsByClassName('candidates');
